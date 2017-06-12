@@ -1,4 +1,4 @@
-package budget.saveit;
+package budget.saveit.view;
 
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +13,7 @@ import com.roomorama.caldroid.CaldroidFragment;
 
 import java.util.Calendar;
 
+import budget.saveit.R;
 import budget.saveit.view.calendar.CalendarFragment;
 import budget.saveit.view.expenses.ExpensesRecyclerViewAdapter;
 
