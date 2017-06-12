@@ -9,23 +9,36 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import budget.saveit.helper.DateHelper;
+
+import static budget.saveit.helper.DateHelper.getDayOfMonth;
+import static budget.saveit.helper.DateHelper.sanitiseDate;
+
 /**
  * Created by aa on 12/06/17.
  */
 
-public class MonthlyExpense extends Expense {
+public class MonthlyExpense {
+    private int startAmount;
+    private int dayOfMonth;
     private Date startDate;
     private Date endDate;
     private Map<Date, Integer> modifications = new HashMap<>();
 
     public MonthlyExpense(int startAmount, Date startDate, Date endDate) {
-        super(startAmount);
+
+        if (startAmount == 0) {
+            throw new NullPointerException("startAmount is 0 XD");
+        }
+
+        this.startAmount = startAmount;
 
         if (startDate == null) {
             throw new NullPointerException("Date is null XD");
         }
 
         this.startDate = sanitiseDate(startDate);
+        this.dayOfMonth = DateHelper.getDayOfMonth(startDate);
         this.endDate = sanitiseDate(endDate);
     }
 
@@ -41,7 +54,7 @@ public class MonthlyExpense extends Expense {
 
     public int getAmountForMonth(Date date) {
         Date sanitisedDate = sanitiseDate(date);
-        int amount = getAmount();
+        int amount = startAmount;
 
         if (modifications.isEmpty()) {
             return amount;
@@ -91,5 +104,13 @@ public class MonthlyExpense extends Expense {
 
     public Date getEndDate() {
         return endDate;
+    }
+
+    public int getStartAmount() {
+        return startAmount;
+    }
+
+    public int getDayOfMonth() {
+        return dayOfMonth;
     }
 }

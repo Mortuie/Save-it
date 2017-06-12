@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 import budget.saveit.R;
-import budget.saveit.model.Expense;
+import budget.saveit.model.MonthlyExpense;
 import budget.saveit.model.OneTimeExpense;
 import budget.saveit.model.db.DB;
 
@@ -20,7 +20,8 @@ import budget.saveit.model.db.DB;
  */
 
 public class ExpensesRecyclerViewAdapter extends RecyclerView.Adapter<ExpensesRecyclerViewAdapter.ViewHolder> {
-    private List<Expense> expenses = new ArrayList<>();
+    private List<OneTimeExpense> oneTimeExpenses = new ArrayList<>();
+    private List<MonthlyExpense> monthlyExpenses = new ArrayList<>();
 
     public ExpensesRecyclerViewAdapter(DB db, Date date) {
         if (db == null) {
@@ -31,8 +32,8 @@ public class ExpensesRecyclerViewAdapter extends RecyclerView.Adapter<ExpensesRe
             throw new NullPointerException("Date is null XD");
         }
 
-        List<OneTimeExpense> expenses = db.getOneTimeExpensesForDay(date);
-        this.expenses.addAll(expenses);
+        this.oneTimeExpenses = db.getOneTimeExpensesForDay(date);
+        this.monthlyExpenses = db.getMonthyExpensesForDay(date);
     }
 
     @Override
@@ -43,12 +44,12 @@ public class ExpensesRecyclerViewAdapter extends RecyclerView.Adapter<ExpensesRe
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        viewHolder.textView.setText("Amount: " + expenses.get(i).getAmount());
+        viewHolder.textView.setText("Amount: " + oneTimeExpenses.get(i).getAmount());
     }
 
     @Override
     public int getItemCount() {
-        return expenses.size();
+        return oneTimeExpenses.size() + monthlyExpenses.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

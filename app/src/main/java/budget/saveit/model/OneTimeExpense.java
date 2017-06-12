@@ -2,15 +2,23 @@ package budget.saveit.model;
 
 import java.util.Date;
 
+import static budget.saveit.helper.DateHelper.sanitiseDate;
+
 /**
  * Created by aa on 12/06/17.
  */
 
-public class OneTimeExpense extends Expense {
+public class OneTimeExpense {
     private Date date;
+    private int amount;
 
     public OneTimeExpense(int amount, Date date) {
-        super(amount);
+
+        if (amount == 0) {
+            throw new NullPointerException("amount is 0 XD");
+        }
+
+        this.amount = amount;
 
         if (date == null) {
             throw new NullPointerException("Date is null XD");
@@ -21,5 +29,9 @@ public class OneTimeExpense extends Expense {
 
     public Date getDate() {
         return date;
+    }
+
+    public int getAmount() {
+        return amount;
     }
 }
