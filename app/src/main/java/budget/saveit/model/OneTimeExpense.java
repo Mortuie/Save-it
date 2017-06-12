@@ -16,7 +16,7 @@ public class OneTimeExpense extends Expense {
             throw new NullPointerException("Date is null XD");
         }
 
-        this.date = date;
+        this.date = sanitiseDate(date);
     }
 
     public Date getDate() {

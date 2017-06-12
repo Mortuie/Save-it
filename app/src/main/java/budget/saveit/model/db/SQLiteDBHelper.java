@@ -15,12 +15,12 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
     protected static final String COLUMN_ONE_TIME_AMOUNT = "amount";
     protected static final String COLUMN_ONE_TIME_DATE = "date";
 
-    protected static final String TABLE_MONTHLY_EXPENSE = "monthly expense";
-    protected static final String COLUMN_MONTHLY_DB_ID          = "_expense_id";
-    protected static final String COLUMN_MONTHLY_AMOUNT         = "amount";
-    protected static final String COLUMN_MONTHLY_STARTDATE      = "startDate";
-    protected static final String COLUMN_MONTHLY_ENDDATE        = "endDate";
-    protected static final String COLUMN_MONTHLY_MODIFICATIONS  = "modifications";
+    protected static final String TABLE_MONTHLY_EXPENSE = "monthly_expense";
+    protected static final String COLUMN_MONTHLY_DB_ID = "_expense_id";
+    protected static final String COLUMN_MONTHLY_AMOUNT = "amount";
+    protected static final String COLUMN_MONTHLY_STARTDATE = "startDate";
+    protected static final String COLUMN_MONTHLY_ENDDATE = "endDate";
+    protected static final String COLUMN_MONTHLY_MODIFICATIONS = "modifications";
 
     private static final String DATABASE_NAME = "saveit.db";
     private static final int DATABASE_VERSION = 1;

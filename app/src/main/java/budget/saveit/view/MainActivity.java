@@ -7,13 +7,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.melnykov.fab.FloatingActionButton;
 import com.roomorama.caldroid.CaldroidFragment;
+import com.roomorama.caldroid.CaldroidListener;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import budget.saveit.R;
+import budget.saveit.model.db.DB;
 import budget.saveit.view.calendar.CalendarFragment;
 import budget.saveit.view.expenses.ExpensesRecyclerViewAdapter;
 
@@ -24,10 +28,14 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayoutManager expensesLayoutManager;
     private ExpensesRecyclerViewAdapter expensesViewAdapter;
 
+    private DB db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        db = new DB(getApplicationContext());
 
         initCalendarFragment();
         initRecylerView();
@@ -36,6 +44,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         calendarFragment = null;
+        expensesLayoutManager = null;
+        expensesRecyclerView = null;
+        expensesViewAdapter = null;
+
+        db.close();
+        db = null;
+
         super.onDestroy();
     }
 
@@ -67,6 +82,19 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction t = getSupportFragmentManager().beginTransaction();
         t.replace(R.id.calendarView, calendarFragment);
         t.commit();
+
+        final CaldroidListener listener = new CaldroidListener() {
+            @Override
+            public void onSelectDate(Date date, View view) {
+                expensesViewAdapter = new ExpensesRecyclerViewAdapter(db, date);
+                expensesRecyclerView.swapAdapter(expensesViewAdapter, true);
+            }
+
+            @Override
+            public void onChangeMonth(int month, int year) {
+
+            }
+        };
     }
 
     private void initRecylerView() {
@@ -78,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         expensesLayoutManager = new LinearLayoutManager(this);
         expensesRecyclerView.setLayoutManager(expensesLayoutManager);
 
-        expensesViewAdapter = new ExpensesRecyclerViewAdapter();
+        expensesViewAdapter = new ExpensesRecyclerViewAdapter(db, new Date());
         expensesRecyclerView.setAdapter(expensesViewAdapter);
     }
 }

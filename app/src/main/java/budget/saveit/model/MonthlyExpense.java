@@ -56,18 +56,6 @@ public class MonthlyExpense extends Expense {
         return amount;
     }
 
-    private static Date sanitiseDate(Date date) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-
-        calendar.set(Calendar.HOUR, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-
-        return calendar.getTime();
-    }
-
     // Help taken from Google's JSON tutorial
     public static String modificationsToJSON(MonthlyExpense expense) throws JSONException {
         JSONArray array = new JSONArray();

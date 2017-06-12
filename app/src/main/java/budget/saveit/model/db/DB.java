@@ -8,8 +8,12 @@ import android.database.sqlite.SQLiteDatabase;
 
 import org.json.JSONException;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import budget.saveit.helper.Logger;
+import budget.saveit.model.Expense;
 import budget.saveit.model.MonthlyExpense;
 import budget.saveit.model.OneTimeExpense;
 
@@ -30,6 +34,37 @@ public final class DB {
         this.context = context.getApplicationContext();
         helper = new SQLiteDBHelper(this.context);
         database = helper.getWritableDatabase();
+    }
+
+    public void close() {
+        try {
+            database.close();
+            helper = null;
+        } catch (Exception e) {
+            Logger.error("Error while closing SQLiteDatabase", e);
+        }
+    }
+
+    public List<OneTimeExpense> getOneTimeExpensesForDay(Date date) {
+        date = Expense.sanitiseDate(date);
+
+        Cursor cursor = null;
+        try {
+            List<OneTimeExpense> expenses = new ArrayList<>();
+
+            cursor = database.query(SQLiteDBHelper.TABLE_ONE_TIME_EXPENSE, null,
+                    SQLiteDBHelper.COLUMN_ONE_TIME_DATE + " = " + date.getTime(),
+                    null, null, null, null, null);
+
+            while (cursor.moveToNext()) {
+                expenses.add(oneTimeExpenseFromCursor(cursor));
+            }
+
+            return expenses;
+        } finally {
+            assert cursor != null;
+            cursor.close();
+        }
     }
 
     private static OneTimeExpense oneTimeExpenseFromCursor(Cursor cursor) {
