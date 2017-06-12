@@ -96,8 +96,9 @@ public final class DB {
 
             return expenses;
         } finally {
-            assert cursor != null;
-            cursor.close();
+            if (cursor != null) {
+                cursor.close();
+            }
         }
     }
 
@@ -122,8 +123,22 @@ public final class DB {
 
             return expenses;
         } finally {
-            assert cursor != null;
-            cursor.close();
+            if (cursor != null) {
+                cursor.close();
+            }
         }
+    }
+
+    public void clearDB() {
+        database.delete(SQLiteDBHelper.TABLE_ONE_TIME_EXPENSE, null, null);
+        database.delete(SQLiteDBHelper.TABLE_MONTHLY_EXPENSE, null, null);
+    }
+
+    public void addOneTimeExpense(OneTimeExpense expense) {
+        if (expense == null) {
+            throw new NullPointerException("Expense is null XD");
+        }
+
+        database.insert(SQLiteDBHelper.TABLE_ONE_TIME_EXPENSE, null, generateContentValuesOneTimeExpense(expense));
     }
 }

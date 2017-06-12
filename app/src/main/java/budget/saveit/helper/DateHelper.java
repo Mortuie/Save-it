@@ -2,6 +2,7 @@ package budget.saveit.helper;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * Created by aa on 12/06/17.
@@ -10,9 +11,10 @@ import java.util.Date;
 public class DateHelper {
     public static Date sanitiseDate(Date date) {
         Calendar calendar = Calendar.getInstance();
+        calendar.setTimeZone(TimeZone.getTimeZone("GMT"));
         calendar.setTime(date);
 
-        calendar.set(Calendar.HOUR, 0);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
