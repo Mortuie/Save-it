@@ -17,8 +17,9 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
 
     protected static final String TABLE_MONTHLY_EXPENSE = "monthly_expense";
     protected static final String COLUMN_MONTHLY_DB_ID = "_expense_id";
-    protected static final String COLUMN_MONTHLY_AMOUNT = "amount";
+    protected static final String COLUMN_MONTHLY_START_AMOUNT = "amount";
     protected static final String COLUMN_MONTHLY_STARTDATE = "startDate";
+    protected static final String COLUMN_MONTHLY_DAYOFMONTH = "dayofmonth";
     protected static final String COLUMN_MONTHLY_ENDDATE = "endDate";
     protected static final String COLUMN_MONTHLY_MODIFICATIONS = "modifications";
 
@@ -35,14 +36,20 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
                 " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_ONE_TIME_AMOUNT +
                 " INTEGER NOT NULL, " + COLUMN_ONE_TIME_DATE + " INTEGER NOT NULL);";
         db.execSQL(query);
+        db.execSQL("CREATE INDEX D_i ON " + TABLE_ONE_TIME_EXPENSE + "(" + COLUMN_ONE_TIME_DATE + ");");
 
         query = "CREATE TABLE " + TABLE_MONTHLY_EXPENSE + "(" +
                 COLUMN_MONTHLY_DB_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_MONTHLY_AMOUNT + " INTEGER NOT NULL, " +
+                COLUMN_MONTHLY_START_AMOUNT + " INTEGER NOT NULL, " +
                 COLUMN_MONTHLY_ENDDATE + " INTEGER NOT NULL, " +
+                COLUMN_MONTHLY_DAYOFMONTH + " INTEGER NOT NULL, " +
                 COLUMN_MONTHLY_MODIFICATIONS + " TEXT NOT NULL, " +
                 COLUMN_MONTHLY_STARTDATE + " INTEGER NOT NULL);";
         db.execSQL(query);
+        db.execSQL("CREATE INDEX DS_i ON " + TABLE_MONTHLY_EXPENSE + "(" + COLUMN_MONTHLY_STARTDATE + ");");
+        db.execSQL("CREATE INDEX DE_i ON " + TABLE_MONTHLY_EXPENSE + "(" + COLUMN_MONTHLY_ENDDATE + ");");
+        db.execSQL("CREATE INDEX DOM_i ON " + TABLE_MONTHLY_EXPENSE + "(" + COLUMN_MONTHLY_DAYOFMONTH + ");");
+
     }
 
     @Override
