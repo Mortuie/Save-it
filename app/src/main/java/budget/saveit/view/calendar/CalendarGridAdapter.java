@@ -1,4 +1,4 @@
-package budget.saveit.calendar;
+package budget.saveit.view.calendar;
 
 import android.content.Context;
 import android.view.View;
@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import com.roomorama.caldroid.CaldroidGridAdapter;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by aa on 12/06/17.
@@ -14,8 +15,8 @@ import java.util.HashMap;
 
 public class CalendarGridAdapter extends CaldroidGridAdapter {
     public CalendarGridAdapter(Context context, int month, int year,
-                               HashMap<String, Object> caldroidData,
-                               HashMap<String, Object> extraData) {
+                               Map<String, Object> caldroidData,
+                               Map<String, Object> extraData) {
         super(context, month, year, caldroidData, extraData);
     }
 

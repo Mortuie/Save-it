@@ -3,26 +3,33 @@ package budget.saveit;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.MenuItemHoverListener;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.melnykov.fab.FloatingActionButton;
 import com.roomorama.caldroid.CaldroidFragment;
 
 import java.util.Calendar;
 
-import budget.saveit.calendar.CalendarFragment;
+import budget.saveit.view.calendar.CalendarFragment;
+import budget.saveit.view.expenses.ExpensesRecyclerViewAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
     private CalendarFragment calendarFragment;
+    private RecyclerView expensesRecyclerView;
+    private LinearLayoutManager expensesLayoutManager;
+    private ExpensesRecyclerViewAdapter expensesViewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        initCalendarFragment();
+        initRecylerView();
     }
 
     @Override
@@ -59,5 +66,18 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction t = getSupportFragmentManager().beginTransaction();
         t.replace(R.id.calendarView, calendarFragment);
         t.commit();
+    }
+
+    private void initRecylerView() {
+        expensesRecyclerView = (RecyclerView) findViewById(R.id.expensesRecyclerView);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.attachToRecyclerView(expensesRecyclerView);
+
+        expensesLayoutManager = new LinearLayoutManager(this);
+        expensesRecyclerView.setLayoutManager(expensesLayoutManager);
+
+        expensesViewAdapter = new ExpensesRecyclerViewAdapter();
+        expensesRecyclerView.setAdapter(expensesViewAdapter);
     }
 }

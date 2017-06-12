@@ -1,4 +1,4 @@
-package budget.saveit.calendar;
+package budget.saveit.view.calendar;
 
 import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidGridAdapter;
