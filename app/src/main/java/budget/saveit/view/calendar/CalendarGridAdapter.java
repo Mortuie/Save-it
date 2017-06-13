@@ -1,13 +1,18 @@
 package budget.saveit.view.calendar;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.roomorama.caldroid.CaldroidGridAdapter;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import budget.saveit.R;
+import hirondelle.date4j.DateTime;
 
 /**
  * Created by aa on 12/06/17.
@@ -22,6 +27,49 @@ public class CalendarGridAdapter extends CaldroidGridAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        return super.getView(position, convertView, parent);
+        View cellView = convertView;
+
+        if (convertView == null) {
+            cellView = createView(parent);
+        }
+
+        DateTime dateTime = this.datetimeList.get(position);
+
+        TextView tv1 = (TextView) cellView.findViewById(R.id.grid_cell_tv1);
+        TextView tv2 = (TextView) cellView.findViewById(R.id.grid_cell_tv2);
+
+        if ((minDateTime != null && dateTime.lt(minDateTime)) ||
+                (maxDateTime != null && dateTime.gt(maxDateTime)) ||
+                (disableDates != null && disableDatesMap.containsKey(dateTime)) ||
+                (dateTime.getMonth() != month)) {
+            tv1.setTextColor(context.getResources().getColor(R.color.divider));
+            tv2.setTextColor(context.getResources().getColor(R.color.divider));
+        } else {
+            tv1.setTextColor(context.getResources().getColor(R.color.primary_text));
+            tv2.setTextColor(context.getResources().getColor(R.color.secondary_text));
+        }
+
+        if (dateTime.equals(getToday())) {
+            if (selectedDates != null && selectedDatesMap.containsKey(dateTime)) {
+                cellView.setBackgroundResource(R.drawable.custom_grid_today_cell_selected_drawable);
+            } else {
+                cellView.setBackgroundResource(R.drawable.custom_grid_today_cell_drawable);
+            }
+        } else {
+            if (selectedDates != null && selectedDatesMap.containsKey(dateTime)) {
+                cellView.setBackgroundResource(R.drawable.custom_grid_today_cell_selected_drawable);
+            } else {
+                cellView.setBackgroundResource(R.drawable.custom_grid_today_cell_drawable);
+            }
+        }
+
+        tv1.setText("" + dateTime.getDay());
+        tv2.setText("Hello");
+
+        return cellView;
+    }
+
+    private View createView(ViewGroup parent) {
+        return LayoutInflater.from(context).inflate(R.layout.custom_grid_cell, parent, false);
     }
 }
