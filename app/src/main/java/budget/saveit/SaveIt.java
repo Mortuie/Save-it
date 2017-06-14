@@ -12,6 +12,7 @@ import budget.saveit.model.db.DB;
  */
 
 public class SaveIt extends Application {
+
     @Override
     public void onCreate() {
         super.onCreate();
