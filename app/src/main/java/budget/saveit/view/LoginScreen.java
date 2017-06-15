@@ -34,9 +34,7 @@ public class LoginScreen extends Activity {
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
 
-
-
-
+        
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
