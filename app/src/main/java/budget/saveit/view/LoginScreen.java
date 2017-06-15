@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import budget.saveit.R;
+import budget.saveit.view.login.SignUpPage;
 
 /**
  * Created by mortuie on 14/06/17.
@@ -41,8 +42,8 @@ public class LoginScreen extends Activity {
             public void onClick(View v) {
                 if (username.getText().toString().equals("admin") && password.getText().toString().equals("admin")) {
                     Toast.makeText(getApplicationContext(), "Redirecting...", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(LoginScreen.this, MainActivity.class);
-                    startActivity(intent);
+                    Intent loginPage = new Intent(LoginScreen.this, MainActivity.class);
+                    startActivity(loginPage);
                 } else {
                     Toast.makeText(getApplicationContext(), "Wrong Credentials", Toast.LENGTH_SHORT).show();
                 }
@@ -52,7 +53,9 @@ public class LoginScreen extends Activity {
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                Toast.makeText(getApplicationContext(), "Redirecting...", Toast.LENGTH_SHORT).show();
+                Intent signUpPage = new Intent(LoginScreen.this, SignUpPage.class);
+                startActivity(signUpPage);
             }
         });
     }

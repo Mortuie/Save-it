@@ -22,6 +22,7 @@
         </activity>
 
         <activity android:name=".view.MainActivity"></activity>
+        <activity android:name=".view.login.SignUpPage"></activity>
     </application>
 
 </manifest>
