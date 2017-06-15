@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import budget.saveit.R;
@@ -34,7 +33,7 @@ public class LoginScreen extends Activity {
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
 
-        
+
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
