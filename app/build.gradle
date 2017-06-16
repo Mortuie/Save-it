@@ -30,4 +30,5 @@ dependencies {
     compile 'com.roomorama:caldroid:3.0.1'
     compile 'com.melnykov:floatingactionbutton:1.1.0'
     testCompile 'junit:junit:4.12'
+    compile 'com.android.support:gridlayout-v7:25.3.1'
 }
