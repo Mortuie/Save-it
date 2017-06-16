@@ -19,6 +19,7 @@ public class LoginScreen extends Activity {
 
     private Button login;
     private Button signUp;
+    private Button quit;
     private EditText username;
     private EditText password;
 
@@ -29,6 +30,7 @@ public class LoginScreen extends Activity {
 
         login = (Button) findViewById(R.id.login);
         signUp = (Button) findViewById(R.id.signUp);
+        quit = (Button) findViewById(R.id.quit);
 
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
@@ -53,6 +55,13 @@ public class LoginScreen extends Activity {
                 Toast.makeText(getApplicationContext(), "Redirecting...", Toast.LENGTH_SHORT).show();
                 Intent signUpPage = new Intent(LoginScreen.this, SignUpPage.class);
                 startActivity(signUpPage);
+            }
+        });
+
+        quit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }

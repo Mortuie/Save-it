@@ -4,12 +4,24 @@
     android:layout_height="match_parent">
 
     <EditText
+        android:id="@+id/username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="Username"
+        android:inputType="textPersonName"
+        android:textAlignment="gravity" />
+
+    <EditText
         android:id="@+id/firstName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:hint="First Name" />
+        android:hint="First Name"
+        android:textAlignment="gravity"
+        android:gravity="center"/>
 
     <EditText
         android:id="@+id/surName"
@@ -17,15 +29,9 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:hint="Surname" />
-
-    <EditText
-        android:id="@+id/username"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="Username" />
+        android:hint="Surname"
+        android:textAlignment="gravity"
+        android:gravity="center" />
 
     <EditText
         android:id="@+id/email"
@@ -33,7 +39,9 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:hint="Email address" />
+        android:hint="Email address"
+        android:textAlignment="gravity"
+        android:gravity="center" />
 
     <EditText
         android:id="@+id/password1"
@@ -41,7 +49,9 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPassword"
-        android:hint="password"/>
+        android:hint="password"
+        android:textAlignment="gravity"
+        android:gravity="center" />
 
     <EditText
         android:id="@+id/password2"
@@ -49,7 +59,9 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="password"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:textAlignment="gravity"
+        android:gravity="center" />
 
     <Button
         android:id="@+id/createAccount"
