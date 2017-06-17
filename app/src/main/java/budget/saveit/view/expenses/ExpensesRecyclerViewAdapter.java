@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 import budget.saveit.R;
+import budget.saveit.model.Expense;
 import budget.saveit.model.MonthlyExpense;
 import budget.saveit.model.OneTimeExpense;
 import budget.saveit.model.db.DB;
@@ -20,8 +21,8 @@ import budget.saveit.model.db.DB;
  */
 
 public class ExpensesRecyclerViewAdapter extends RecyclerView.Adapter<ExpensesRecyclerViewAdapter.ViewHolder> {
-    private List<OneTimeExpense> oneTimeExpenses = new ArrayList<>();
-    private List<MonthlyExpense> monthlyExpenses = new ArrayList<>();
+    private List<Expense> expenses = new ArrayList<>();
+    private Date date;
 
     public ExpensesRecyclerViewAdapter(DB db, Date date) {
         if (db == null) {
@@ -32,8 +33,9 @@ public class ExpensesRecyclerViewAdapter extends RecyclerView.Adapter<ExpensesRe
             throw new NullPointerException("Date is null XD");
         }
 
-        this.oneTimeExpenses = db.getOneTimeExpensesForDay(date);
-        this.monthlyExpenses = db.getMonthyExpensesForDay(date);
+        this.date = date;
+        this.expenses.addAll(db.getOneTimeExpensesForDay(date));
+        this.expenses.addAll(db.getMonthyExpensesForDay(date));
     }
 
     @Override
@@ -44,20 +46,39 @@ public class ExpensesRecyclerViewAdapter extends RecyclerView.Adapter<ExpensesRe
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        viewHolder.textView.setText("Amount: " + oneTimeExpenses.get(i).getAmount());
+        Expense expense = expenses.get(i);
+
+        if (expense instanceof OneTimeExpense) {
+            drawOneTimeExpense((OneTimeExpense) expense, viewHolder);
+        } else if (expense instanceof MonthlyExpense) {
+            drawMonthlyExpense((MonthlyExpense) expense, viewHolder);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return oneTimeExpenses.size() + monthlyExpenses.size();
+        return expenses.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView textView;
+        public final TextView expenseTitle;
+        public final TextView expenseAmount;
 
         public ViewHolder(View v) {
             super(v);
-            textView = (TextView) v.findViewById(R.id.expense_text_view);
+
+            expenseTitle = (TextView) v.findViewById(R.id.expense_title);
+            expenseAmount = (TextView) v.findViewById(R.id.expense_amount);
         }
+    }
+
+    private void drawOneTimeExpense(OneTimeExpense expense, ViewHolder viewHolder) {
+        viewHolder.expenseTitle.setText("Title");
+        viewHolder.expenseAmount.setText("£" + expense.getAmount());
+    }
+
+    private void drawMonthlyExpense(MonthlyExpense expense, ViewHolder viewHolder) {
+        viewHolder.expenseTitle.setText("Title");
+        viewHolder.expenseAmount.setText("£" + expense.getAmountForMonth(date));
     }
 }

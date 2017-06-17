@@ -18,7 +18,7 @@ import static budget.saveit.helper.DateHelper.sanitiseDate;
  * Created by aa on 12/06/17.
  */
 
-public class MonthlyExpense {
+public class MonthlyExpense extends Expense {
     private int startAmount;
     private int dayOfMonth;
     private Date startDate;

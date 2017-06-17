@@ -33,12 +33,14 @@ public class MainActivity extends AppCompatActivity {
     private ExpensesRecyclerViewAdapter expensesViewAdapter;
 
     private DB db;
+    private TextView budgetLine;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        budgetLine = (TextView) findViewById(R.id.budgetLine);
         db = new DB(getApplicationContext());
 
         initCalendarFragment();
@@ -54,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
         db.close();
         db = null;
+        budgetLine = null;
 
         super.onDestroy();
     }
@@ -145,5 +148,7 @@ public class MainActivity extends AppCompatActivity {
 
         expensesViewAdapter = new ExpensesRecyclerViewAdapter(db, new Date());
         expensesRecyclerView.setAdapter(expensesViewAdapter);
+
+        budgetLine.setText("Account balance: £1234");
     }
 }

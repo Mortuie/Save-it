@@ -8,7 +8,7 @@ import static budget.saveit.helper.DateHelper.sanitiseDate;
  * Created by aa on 12/06/17.
  */
 
-public class OneTimeExpense {
+public class OneTimeExpense extends Expense {
     private Date date;
     private int amount;
 
