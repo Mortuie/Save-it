@@ -13,7 +13,6 @@ import java.util.List;
 import budget.saveit.R;
 import budget.saveit.model.Expense;
 import budget.saveit.model.MonthlyExpense;
-import budget.saveit.model.OneTimeExpense;
 import budget.saveit.model.db.DB;
 
 /**
@@ -34,7 +33,6 @@ public class ExpensesRecyclerViewAdapter extends RecyclerView.Adapter<ExpensesRe
         }
 
         this.date = date;
-        this.expenses.addAll(db.getMonthlyExpensesForDay(date));
         this.expenses.addAll(db.getOneTimeExpensesForDay(date));
     }
 
@@ -49,12 +47,8 @@ public class ExpensesRecyclerViewAdapter extends RecyclerView.Adapter<ExpensesRe
         Expense expense = expenses.get(i);
 
         viewHolder.expenseTitle.setText(expense.getTitle());
-
-        if (expense instanceof OneTimeExpense) {
-            drawOneTimeExpense((OneTimeExpense) expense, viewHolder);
-        } else if (expense instanceof MonthlyExpense) {
-            drawMonthlyExpense((MonthlyExpense) expense, viewHolder);
-        }
+        viewHolder.expenseAmount.setText("£" + expense.getAmount());
+        viewHolder.monthlyIndicator.setVisibility(expense.isMonthly() ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -65,20 +59,14 @@ public class ExpensesRecyclerViewAdapter extends RecyclerView.Adapter<ExpensesRe
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public final TextView expenseTitle;
         public final TextView expenseAmount;
+        public final ViewGroup monthlyIndicator;
 
         public ViewHolder(View v) {
             super(v);
 
             expenseTitle = (TextView) v.findViewById(R.id.expense_title);
             expenseAmount = (TextView) v.findViewById(R.id.expense_amount);
+            monthlyIndicator = (ViewGroup) v.findViewById(R.id.monthly_indicator);
         }
-    }
-
-    private void drawOneTimeExpense(OneTimeExpense expense, ViewHolder viewHolder) {
-        viewHolder.expenseAmount.setText("£" + expense.getAmount());
-    }
-
-    private void drawMonthlyExpense(MonthlyExpense expense, ViewHolder viewHolder) {
-        viewHolder.expenseAmount.setText("£" + expense.getAmountForMonth(date));
     }
 }

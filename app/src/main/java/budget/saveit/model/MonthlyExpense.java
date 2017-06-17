@@ -4,118 +4,57 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import budget.saveit.helper.DateHelper;
 
-import static budget.saveit.helper.DateHelper.getDayOfMonth;
 import static budget.saveit.helper.DateHelper.sanitiseDate;
 
 /**
  * Created by aa on 12/06/17.
  */
 
-public class MonthlyExpense extends Expense {
-    private int startAmount;
-    private int dayOfMonth;
-    private Date startDate;
-    private Date endDate;
-    private Map<Date, Integer> modifications = new HashMap<>();
+public class MonthlyExpense {
+    private String title;
+    private Date recurringDate;
+    private int amount;
+    private boolean modified = false;
 
-    public MonthlyExpense(String title, int startAmount, Date startDate) {
-        this(title, startAmount, startDate, null);
-    }
 
-    public MonthlyExpense(String title, int startAmount, Date startDate, Date endDate) {
-        super(title);
-
+    public MonthlyExpense(String title, int startAmount, Date recurringDate) {
         if (startAmount == 0) {
             throw new NullPointerException("startAmount is 0 XD");
         }
+        this.amount = startAmount;
 
-        this.startAmount = startAmount;
-
-        if (startDate == null) {
-            throw new NullPointerException("Date is null XD");
+        if (recurringDate == null) {
+            throw new NullPointerException("recurringDate is null XD");
         }
 
-        this.startDate = sanitiseDate(startDate);
-        this.dayOfMonth = DateHelper.getDayOfMonth(startDate);
-        this.endDate = sanitiseDate(endDate);
+        this.recurringDate = sanitiseDate(recurringDate);
     }
 
-    public MonthlyExpense(String title, int startAmount, Date startDate, Date endDate, Map<Date, Integer> modifications) {
-        this(title, startAmount, startDate, endDate);
+    public MonthlyExpense(String title, int startAmount, Date recurringDate, boolean modified) {
+        this(title, startAmount, recurringDate);
 
-        if (modifications == null) {
-            throw new NullPointerException("Modifications is null XD");
-        }
-
-        this.modifications = modifications;
+        this.modified = modified;
     }
 
-    public int getAmountForMonth(Date date) {
-        Date sanitisedDate = sanitiseDate(date);
-        int amount = startAmount;
+    public String getTitle() {
+        return title;
+    }
 
-        if (modifications.isEmpty()) {
-            return amount;
-        }
-
-        for (Date d : modifications.keySet()) {
-            if (d.before(sanitisedDate)) {
-                amount = modifications.get(d);
-            }
-        }
-
+    public int getAmount() {
         return amount;
     }
 
-    // Help taken from Google's JSON tutorial
-    public static String modificationsToJSON(MonthlyExpense expense) throws JSONException {
-        JSONArray array = new JSONArray();
-
-        for (Date modification : expense.modifications.keySet()) {
-            Integer amount = expense.modifications.get(modification);
-
-            JSONObject modJSON = new JSONObject();
-            modJSON.put("d", modification.getTime());
-            modJSON.put("a", amount);
-            array.put(modJSON);
-        }
-
-        return array.toString();
+    public boolean isModified() {
+        return modified;
     }
 
-    public static Map<Date, Integer> jsonToModifications(String JSONString) throws JSONException {
-        JSONArray array = new JSONArray(JSONString);
-
-        Map<Date, Integer> modifications = new HashMap<>();
-
-        for (int i = 0; i < array.length(); i++) {
-            JSONObject modJSON = array.getJSONObject(i);
-            modifications.put(new Date(modJSON.getInt("d")), modJSON.getInt("a"));
-        }
-
-        return modifications;
-    }
-
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public int getStartAmount() {
-        return startAmount;
-    }
-
-    public int getDayOfMonth() {
-        return dayOfMonth;
+    public Date getRecurringDate() {
+        return recurringDate;
     }
 }
