@@ -25,7 +25,12 @@ public class MonthlyExpense extends Expense {
     private Date endDate;
     private Map<Date, Integer> modifications = new HashMap<>();
 
-    public MonthlyExpense(int startAmount, Date startDate, Date endDate) {
+    public MonthlyExpense(String title, int startAmount, Date startDate) {
+        this(title, startAmount, startDate, null);
+    }
+
+    public MonthlyExpense(String title, int startAmount, Date startDate, Date endDate) {
+        super(title);
 
         if (startAmount == 0) {
             throw new NullPointerException("startAmount is 0 XD");
@@ -42,8 +47,8 @@ public class MonthlyExpense extends Expense {
         this.endDate = sanitiseDate(endDate);
     }
 
-    public MonthlyExpense(int startAmount, Date startDate, Date endDate, Map<Date, Integer> modifications) {
-        this(startAmount, startDate, endDate);
+    public MonthlyExpense(String title, int startAmount, Date startDate, Date endDate, Map<Date, Integer> modifications) {
+        this(title, startAmount, startDate, endDate);
 
         if (modifications == null) {
             throw new NullPointerException("Modifications is null XD");

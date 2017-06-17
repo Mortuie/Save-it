@@ -12,7 +12,8 @@ public class OneTimeExpense extends Expense {
     private Date date;
     private int amount;
 
-    public OneTimeExpense(int amount, Date date) {
+    public OneTimeExpense(String title, int amount, Date date) {
+        super(title);
 
         if (amount == 0) {
             throw new NullPointerException("amount is 0 XD");

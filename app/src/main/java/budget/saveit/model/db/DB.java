@@ -37,7 +37,9 @@ public final class DB {
     }
 
     private static OneTimeExpense oneTimeExpenseFromCursor(Cursor cursor) {
-        return new OneTimeExpense(cursor.getInt(cursor.getColumnIndex(SQLiteDBHelper.COLUMN_ONE_TIME_AMOUNT)),
+        return new OneTimeExpense(
+                cursor.getString(cursor.getColumnIndex(SQLiteDBHelper.COLUMN_ONE_TIME_TITLE)),
+                cursor.getInt(cursor.getColumnIndex(SQLiteDBHelper.COLUMN_ONE_TIME_AMOUNT)),
                 new Date(cursor.getInt(cursor.getColumnIndex(SQLiteDBHelper.COLUMN_ONE_TIME_DATE)))
         );
     }
@@ -45,6 +47,7 @@ public final class DB {
     private static ContentValues generateContentValuesOneTimeExpense(OneTimeExpense expense) {
         final ContentValues values = new ContentValues();
 
+        values.put(SQLiteDBHelper.COLUMN_ONE_TIME_TITLE, expense.getTitle());
         values.put(SQLiteDBHelper.COLUMN_ONE_TIME_DATE, expense.getDate().getTime());
         values.put(SQLiteDBHelper.COLUMN_ONE_TIME_AMOUNT, expense.getAmount());
 
@@ -52,9 +55,12 @@ public final class DB {
     }
 
     private static MonthlyExpense monthlyExpenseFromCursor(Cursor cursor) throws JSONException {
-        return new MonthlyExpense(cursor.getInt(cursor.getColumnIndex(SQLiteDBHelper.COLUMN_MONTHLY_START_AMOUNT)),
+        return new MonthlyExpense(
+                cursor.getString(cursor.getColumnIndex(SQLiteDBHelper.COLUMN_MONTHLY_TITLE)),
+                cursor.getInt(cursor.getColumnIndex(SQLiteDBHelper.COLUMN_MONTHLY_START_AMOUNT)),
                 new Date(cursor.getInt(cursor.getColumnIndex(SQLiteDBHelper.COLUMN_MONTHLY_STARTDATE))),
                 new Date(cursor.getInt(cursor.getColumnIndex(SQLiteDBHelper.COLUMN_MONTHLY_ENDDATE))),
+
                 MonthlyExpense.jsonToModifications(cursor.getString(cursor.getColumnIndex(SQLiteDBHelper.COLUMN_MONTHLY_MODIFICATIONS)))
         );
     }
@@ -62,6 +68,7 @@ public final class DB {
     private static ContentValues generateContentValuesMonthlyExpense(MonthlyExpense expense) throws JSONException {
         final ContentValues values = new ContentValues();
 
+        values.put(SQLiteDBHelper.COLUMN_MONTHLY_TITLE, expense.getTitle());
         values.put(SQLiteDBHelper.COLUMN_MONTHLY_STARTDATE, expense.getStartDate().getTime());
         values.put(SQLiteDBHelper.COLUMN_MONTHLY_ENDDATE, expense.getEndDate().getTime());
         values.put(SQLiteDBHelper.COLUMN_MONTHLY_START_AMOUNT, expense.getStartAmount());
@@ -102,7 +109,7 @@ public final class DB {
         }
     }
 
-    public List<MonthlyExpense> getMonthyExpensesForDay(Date date) {
+    public List<MonthlyExpense> getMonthlyExpensesForDay(Date date) {
         date = DateHelper.sanitiseDate(date);
 
         Cursor cursor = null;
@@ -140,5 +147,17 @@ public final class DB {
         }
 
         database.insert(SQLiteDBHelper.TABLE_ONE_TIME_EXPENSE, null, generateContentValuesOneTimeExpense(expense));
+    }
+
+    public void addMonthlyExpense(MonthlyExpense expense) {
+        if (expense == null) {
+            throw new NullPointerException("Expense is null XD");
+        }
+
+        try {
+            database.insert(SQLiteDBHelper.TABLE_MONTHLY_EXPENSE, null, generateContentValuesMonthlyExpense(expense));
+        } catch (Exception e) {
+            throw new RuntimeException("Error while serializing MonthlyExpense to SQLite.", e);
+        }
     }
 }

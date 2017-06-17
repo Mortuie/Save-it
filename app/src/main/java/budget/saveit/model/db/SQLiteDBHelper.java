@@ -12,11 +12,13 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
 
     protected static final String TABLE_ONE_TIME_EXPENSE = "onetimeexpense";
     protected static final String COLUMN_ONE_TIME_DB_ID = "_expense_id";
+    protected static final String COLUMN_ONE_TIME_TITLE = "title";
     protected static final String COLUMN_ONE_TIME_AMOUNT = "amount";
     protected static final String COLUMN_ONE_TIME_DATE = "date";
 
     protected static final String TABLE_MONTHLY_EXPENSE = "monthly_expense";
     protected static final String COLUMN_MONTHLY_DB_ID = "_expense_id";
+    protected static final String COLUMN_MONTHLY_TITLE = "title";
     protected static final String COLUMN_MONTHLY_START_AMOUNT = "amount";
     protected static final String COLUMN_MONTHLY_STARTDATE = "startDate";
     protected static final String COLUMN_MONTHLY_DAYOFMONTH = "dayofmonth";
@@ -33,13 +35,15 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String query = "CREATE TABLE " + TABLE_ONE_TIME_EXPENSE + "(" + COLUMN_ONE_TIME_DB_ID +
-                " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_ONE_TIME_AMOUNT +
-                " INTEGER NOT NULL, " + COLUMN_ONE_TIME_DATE + " INTEGER NOT NULL);";
+                " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_ONE_TIME_TITLE + " TEXT NOT NULL, "
+                + COLUMN_ONE_TIME_AMOUNT + " INTEGER NOT NULL, " +
+                COLUMN_ONE_TIME_DATE + " INTEGER NOT NULL);";
         db.execSQL(query);
         db.execSQL("CREATE INDEX D_i ON " + TABLE_ONE_TIME_EXPENSE + "(" + COLUMN_ONE_TIME_DATE + ");");
 
         query = "CREATE TABLE " + TABLE_MONTHLY_EXPENSE + "(" +
                 COLUMN_MONTHLY_DB_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_MONTHLY_TITLE + " TEXT NOT NULL, " +
                 COLUMN_MONTHLY_START_AMOUNT + " INTEGER NOT NULL, " +
                 COLUMN_MONTHLY_ENDDATE + " INTEGER NOT NULL, " +
                 COLUMN_MONTHLY_DAYOFMONTH + " INTEGER NOT NULL, " +

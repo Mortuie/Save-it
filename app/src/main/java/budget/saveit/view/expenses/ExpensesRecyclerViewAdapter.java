@@ -35,7 +35,7 @@ public class ExpensesRecyclerViewAdapter extends RecyclerView.Adapter<ExpensesRe
 
         this.date = date;
         this.expenses.addAll(db.getOneTimeExpensesForDay(date));
-        this.expenses.addAll(db.getMonthyExpensesForDay(date));
+        this.expenses.addAll(db.getMonthlyExpensesForDay(date));
     }
 
     @Override
@@ -47,6 +47,8 @@ public class ExpensesRecyclerViewAdapter extends RecyclerView.Adapter<ExpensesRe
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         Expense expense = expenses.get(i);
+
+        viewHolder.expenseTitle.setText(expense.getTitle());
 
         if (expense instanceof OneTimeExpense) {
             drawOneTimeExpense((OneTimeExpense) expense, viewHolder);
@@ -73,12 +75,10 @@ public class ExpensesRecyclerViewAdapter extends RecyclerView.Adapter<ExpensesRe
     }
 
     private void drawOneTimeExpense(OneTimeExpense expense, ViewHolder viewHolder) {
-        viewHolder.expenseTitle.setText("Title");
         viewHolder.expenseAmount.setText("£" + expense.getAmount());
     }
 
     private void drawMonthlyExpense(MonthlyExpense expense, ViewHolder viewHolder) {
-        viewHolder.expenseTitle.setText("Title");
         viewHolder.expenseAmount.setText("£" + expense.getAmountForMonth(date));
     }
 }
