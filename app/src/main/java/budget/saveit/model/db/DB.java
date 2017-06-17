@@ -43,14 +43,14 @@ public final class DB {
         values.put(SQLiteDBHelper.COLUMN_EXPENSE_DATE, expense.getDate().getTime());
         values.put(SQLiteDBHelper.COLUMN_EXPENSE_AMOUNT, expense.getAmount());
 
-        if (expense.getMonthlyID() != null) {
+        if (expense.isMonthly()) {
             values.put(SQLiteDBHelper.COLUMN_EXPENSE_MONTHLY_ID, expense.getMonthlyID());
         }
 
         return values;
     }
 
-    private static MonthlyExpense monthlyExpenseFromCursor(Cursor cursor) throws JSONException {
+    private static MonthlyExpense monthlyExpenseFromCursor(Cursor cursor) {
         return new MonthlyExpense (
                 cursor.getString(cursor.getColumnIndex(SQLiteDBHelper.COLUMN_MONTHLY_TITLE)),
                 cursor.getInt(cursor.getColumnIndex(SQLiteDBHelper.COLUMN_MONTHLY_AMOUNT)),
@@ -59,7 +59,7 @@ public final class DB {
         );
     }
 
-    private static ContentValues generateContentValuesMonthlyExpense(MonthlyExpense expense) throws JSONException {
+    private static ContentValues generateContentValuesForMonthlyExpense(MonthlyExpense expense) {
         final ContentValues values = new ContentValues();
 
         values.put(SQLiteDBHelper.COLUMN_MONTHLY_TITLE, expense.getTitle());
@@ -139,10 +139,6 @@ public final class DB {
             throw new NullPointerException("Expense is null XD");
         }
 
-        try {
-            return database.insert(SQLiteDBHelper.TABLE_MONTHLY_EXPENSE, null, generateContentValuesMonthlyExpense(expense));
-        } catch (Exception e) {
-            throw new RuntimeException("Error while serializing MonthlyExpense to SQLite.", e);
-        }
+        return database.insert(SQLiteDBHelper.TABLE_MONTHLY_EXPENSE, null, generateContentValuesForMonthlyExpense(expense));
     }
 }

@@ -29,6 +29,12 @@ public class MonthlyExpense {
         }
         this.amount = startAmount;
 
+        if (title == null) {
+            throw new IllegalArgumentException("Title is empty or null XD");
+        }
+
+        this.title = title;
+
         if (recurringDate == null) {
             throw new NullPointerException("recurringDate is null XD");
         }
