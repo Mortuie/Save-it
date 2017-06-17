@@ -34,8 +34,8 @@ public class ExpensesRecyclerViewAdapter extends RecyclerView.Adapter<ExpensesRe
         }
 
         this.date = date;
-        this.expenses.addAll(db.getOneTimeExpensesForDay(date));
         this.expenses.addAll(db.getMonthlyExpensesForDay(date));
+        this.expenses.addAll(db.getOneTimeExpensesForDay(date));
     }
 
     @Override
