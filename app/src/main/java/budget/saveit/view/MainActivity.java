@@ -85,10 +85,6 @@ public class MainActivity extends AppCompatActivity {
         calendarFragment.setArguments(args);
         calendarFragment.setSelectedDates(new Date(), new Date());
 
-        FragmentTransaction t = getSupportFragmentManager().beginTransaction();
-        t.replace(R.id.calendarView, calendarFragment);
-        t.commit();
-
         final CaldroidListener listener = new CaldroidListener() {
             @Override
             public void onSelectDate(Date date, View view) {
@@ -128,10 +124,14 @@ public class MainActivity extends AppCompatActivity {
                     leftButton.setOutlineProvider(null);
                     rightButton.setOutlineProvider(null);
                 }
-
-                calendarFragment.refreshView();
             }
         };
+
+        calendarFragment.setCaldroidListener(listener);
+
+        FragmentTransaction t = getSupportFragmentManager().beginTransaction();
+        t.replace(R.id.calendarView, calendarFragment);
+        t.commit();
     }
 
     private void initRecyclerView() {

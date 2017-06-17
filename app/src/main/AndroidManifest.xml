@@ -13,7 +13,7 @@
 
         <uses-permission android:name="android.permission.INTERNET" />
 
-        <activity android:name=".view.LoginScreen">
+        <activity android:name=".view.login.LoginScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

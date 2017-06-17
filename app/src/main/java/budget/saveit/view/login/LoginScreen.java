@@ -1,4 +1,4 @@
-package budget.saveit.view;
+package budget.saveit.view.login;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,7 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import budget.saveit.R;
-import budget.saveit.view.login.SignUpPage;
+import budget.saveit.view.MainActivity;
 
 /**
  * Created by mortuie on 14/06/17.

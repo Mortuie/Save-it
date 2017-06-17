@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@color/accent_pressed" android:state_pressed="true"/> <!-- pressed -->
-    <item android:drawable="@android:color/white" /> <!-- normal -->
-</selector>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/accent_ripple">
+
+    <item android:drawable="@android:color/white" />
+
+    <item android:id="@android:id/mask"
+        android:left="5dp"
+        android:right="5dp"
+        android:top="3dp"
+        android:bottom="3dp">
+
+        <shape android:shape="oval">
+            <solid android:color="@android:color/white"/>
+        </shape>
+    </item>
+</ripple>
