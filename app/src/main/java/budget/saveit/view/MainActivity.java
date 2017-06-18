@@ -168,8 +168,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateBalanceDisplayForDay(Date day) {
-        budgetLine.setText("Balance: " +
-                (Parameters.getInstance(this).getInt(ParameterKeys.BASE_BALANCE, 0) -
-                        db.getBalanceForDay(day)) + " GBP");
+        int balance = Parameters.getInstance(this).getInt(ParameterKeys.BASE_BALANCE, 0) - db.getBalanceForDay(day);
+
+        budgetLine.setText("Balance: " + balance + " GBP");
+
+        if (balance <= 0) {
+            budgetLine.setBackgroundResource(R.color.budget_red);
+        } else if (balance < 100) {
+            budgetLine.setBackgroundResource(R.color.budget_orange);
+        } else {
+            budgetLine.setBackgroundResource(R.color.budget_green);
+        }
     }
 }
