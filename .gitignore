@@ -41,6 +41,8 @@ captures/
 .idea/copyright
 .idea/vcs.xml
 .idea/misc.xml
+.idea/markdown-navigator.xml
+.idea/markdown-navigator/*
 .idea/gradle.xml
 # Keystore files
 *.jks

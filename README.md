@@ -1,4 +1,4 @@
-# Save It
+![Save it](/media/banner_trans-bg.png)
 
 Save It is a work-in-progress project for a simple budget management Android application.
 
