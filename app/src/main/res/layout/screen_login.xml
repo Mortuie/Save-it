@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:hint = "Name"
+        android:hint = "Username"
         android:gravity="center"/>
         android:textAlignment="gravity"
 
@@ -35,6 +35,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Sign Up" />
+
+    <Button
+        android:id="@+id/forgotPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Forgot password" />
 
     <Button
         android:id="@+id/quit"
