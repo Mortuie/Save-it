@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.roomorama.caldroid.CaldroidGridAdapter;
@@ -43,17 +44,27 @@ public class CalendarGridAdapter extends CaldroidGridAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View cellView = convertView;
+        ViewData viewData = null;
 
         // For reuse
         if (convertView == null) {
             cellView = createView(parent);
+            viewData = new ViewData();
+
+            viewData.day = (TextView) cellView.findViewById(R.id.grid_cell_tv1);
+            viewData.amount = (TextView) cellView.findViewById(R.id.grid_cell_tv2);
+            viewData.cellColorIndicator = cellView.findViewById(R.id.cell_color_indicator);
+        } else {
+            viewData = (ViewData) cellView.getTag();
         }
 
         // Get dateTime of this cell
         DateTime dateTime = this.datetimeList.get(position);
+        boolean isToday = dateTime.equals(getToday());
 
-        TextView tv1 = (TextView) cellView.findViewById(R.id.grid_cell_tv1);
-        TextView tv2 = (TextView) cellView.findViewById(R.id.grid_cell_tv2);
+        TextView tv1 = viewData.day;
+        TextView tv2 = viewData.amount;
+        View cellColorIndicator = viewData.cellColorIndicator;
 
         // Customize for disabled dates and date outside min/max dates
         if ((minDateTime != null && dateTime.lt(minDateTime))
@@ -61,27 +72,49 @@ public class CalendarGridAdapter extends CaldroidGridAdapter {
                 || (disableDates != null && disableDatesMap.containsKey(dateTime))
                 || (dateTime.getMonth() != month)) {
 
-            tv1.setTextColor(context.getResources().getColor(R.color.divider));
-            tv2.setTextColor(context.getResources().getColor(R.color.divider));
-        } else {
+            if (!viewData.isDisabled) {
+                tv1.setTextColor(context.getResources().getColor(R.color.divider));
+                tv2.setTextColor(context.getResources().getColor(R.color.divider));
+
+                viewData.isDisabled = true;
+            }
+        } else if (viewData.isDisabled) {
             tv1.setTextColor(context.getResources().getColor(R.color.primary_text));
             tv2.setTextColor(context.getResources().getColor(R.color.secondary_text));
+
+            viewData.isDisabled = false;
         }
 
         // Today's cell
-        if (dateTime.equals(getToday())) {
+        if (isToday) {
             // Customize for selected dates
             if (selectedDates != null && selectedDatesMap.containsKey(dateTime)) {
-                cellView.setBackgroundResource(R.drawable.custom_grid_today_cell_selected_drawable);
-            } else {
+                if (!viewData.isToday || !viewData.isSelected) {
+                    cellView.setBackgroundResource(R.drawable.custom_grid_today_cell_selected_drawable);
+
+                    viewData.isToday = true;
+                    viewData.isSelected = true;
+                }
+            } else if (!viewData.isToday || viewData.isSelected) {
                 cellView.setBackgroundResource(R.drawable.custom_grid_today_cell_drawable);
+
+                viewData.isToday = true;
+                viewData.isSelected = false;
             }
         } else {
             // Customize for selected dates
             if (selectedDates != null && selectedDatesMap.containsKey(dateTime)) {
-                cellView.setBackgroundResource(R.drawable.custom_grid_cell_selected_drawable);
-            } else {
+                if (viewData.isToday || !viewData.isSelected) {
+                    cellView.setBackgroundResource(R.drawable.custom_grid_cell_selected_drawable);
+
+                    viewData.isToday = false;
+                    viewData.isSelected = true;
+                }
+            } else if (viewData.isToday || viewData.isSelected) {
                 cellView.setBackgroundResource(R.drawable.custom_grid_cell_drawable);
+
+                viewData.isToday = false;
+                viewData.isSelected = false;
             }
         }
 
@@ -89,16 +122,66 @@ public class CalendarGridAdapter extends CaldroidGridAdapter {
 
         Date date = new Date(dateTime.getMilliseconds(TimeZone.getTimeZone("UTC")));
         if (db.hasExpensesForDay(date)) {
-            tv2.setVisibility(View.VISIBLE);
-            tv2.setText((baseBalance - db.getBalanceForDay(date)) + "");
-        } else {
+            int balance = db.getBalanceForDay(date);
+
+            if (!viewData.containsExpenses) {
+                tv2.setVisibility(View.VISIBLE);
+                cellColorIndicator.setVisibility(View.VISIBLE);
+
+                viewData.containsExpenses = true;
+            }
+
+            tv2.setText((baseBalance - balance) + "");
+
+            if (balance > 0) {
+                cellColorIndicator.setBackgroundResource(R.color.budget_red);
+            } else if (balance <= 0) {
+                cellColorIndicator.setBackgroundResource(R.color.budget_green);
+            }
+
+            // Apply margin to the color indicator if it's today's cell since there's a border
+            if (isToday && !viewData.colorIndicatorMarginForToday) {
+                int marginDimen = context.getResources().getDimensionPixelOffset(R.dimen.grid_cell_today_border_size);
+
+                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(cellColorIndicator.getLayoutParams());
+                params.setMargins(0, marginDimen, marginDimen, 0);
+                params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+                params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+                cellColorIndicator.setLayoutParams(params);
+
+                viewData.colorIndicatorMarginForToday = true;
+            } else if (!isToday && viewData.colorIndicatorMarginForToday) {
+                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(cellColorIndicator.getLayoutParams());
+                params.setMargins(0, 0, 0, 0);
+                params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+                params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+                cellColorIndicator.setLayoutParams(params);
+
+                viewData.colorIndicatorMarginForToday = false;
+            }
+        } else if (viewData.containsExpenses) {
+            cellColorIndicator.setVisibility(View.GONE);
             tv2.setVisibility(View.INVISIBLE);
+
+            viewData.containsExpenses = false;
         }
 
+        cellView.setTag(viewData);
         return cellView;
     }
 
     private View createView(ViewGroup parent) {
         return LayoutInflater.from(context).inflate(R.layout.custom_grid_cell, parent, false);
+    }
+
+    public static class ViewData {
+        public TextView day;
+        public TextView amount;
+        public View cellColorIndicator;
+        public boolean isDisabled = false;
+        public boolean isToday = false;
+        public boolean isSelected = false;
+        public boolean containsExpenses = false;
+        public boolean colorIndicatorMarginForToday = false;
     }
 }
