@@ -23,6 +23,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 import budget.saveit.R;
+import budget.saveit.helper.ParameterKeys;
+import budget.saveit.helper.Parameters;
 import budget.saveit.model.db.DB;
 import budget.saveit.view.calendar.CalendarFragment;
 import budget.saveit.view.expenses.ExpensesRecyclerViewAdapter;
@@ -109,6 +111,8 @@ public class MainActivity extends AppCompatActivity {
 
                 calendarFragment.setSelectedDates(date, date);
                 calendarFragment.refreshView();
+
+                updateBalanceDisplayForDay(date);
             }
 
             @Override
@@ -162,6 +166,12 @@ public class MainActivity extends AppCompatActivity {
         expensesViewAdapter = new ExpensesRecyclerViewAdapter(db, new Date());
         expensesRecyclerView.setAdapter(expensesViewAdapter);
 
-        budgetLine.setText("Account balance: £1234");
+        updateBalanceDisplayForDay(new Date());
+    }
+
+    private void updateBalanceDisplayForDay(Date day) {
+        budgetLine.setText("Balance: £" +
+                (Parameters.getInstance(this).getInt(ParameterKeys.BASE_BALANCE, 0) -
+                        db.getBalanceForDay(day)));
     }
 }

@@ -12,7 +12,6 @@ import java.util.List;
 
 import budget.saveit.R;
 import budget.saveit.model.Expense;
-import budget.saveit.model.MonthlyExpense;
 import budget.saveit.model.db.DB;
 
 /**
@@ -33,7 +32,7 @@ public class ExpensesRecyclerViewAdapter extends RecyclerView.Adapter<ExpensesRe
         }
 
         this.date = date;
-        this.expenses.addAll(db.getOneTimeExpensesForDay(date));
+        this.expenses.addAll(db.getExpensesForDay(date));
     }
 
     @Override

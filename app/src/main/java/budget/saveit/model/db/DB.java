@@ -79,7 +79,47 @@ public final class DB {
         }
     }
 
-    public List<Expense> getOneTimeExpensesForDay(Date date) {
+    public boolean hasExpensesForDay(Date day) {
+        day = DateHelper.sanitiseDate(day);
+
+        Cursor cursor = null;
+        try {
+            cursor = database.rawQuery("SELECT COUNT(*) FROM " + SQLiteDBHelper.TABLE_EXPENSE +
+                    " WHERE " + SQLiteDBHelper.COLUMN_EXPENSE_DATE + " = " + day.getTime(), null);
+            if (cursor.moveToFirst()) {
+                return cursor.getInt(0) > 0;
+            }
+
+            return false;
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+    }
+
+    public int getBalanceForDay(Date day) {
+        day = DateHelper.sanitiseDate(day);
+
+        Cursor cursor = null;
+        try {
+            cursor = database.rawQuery("SELECT SUM(" + SQLiteDBHelper.COLUMN_EXPENSE_AMOUNT +
+                    ") FROM " + SQLiteDBHelper.TABLE_EXPENSE + " WHERE " + SQLiteDBHelper.COLUMN_EXPENSE_DATE +
+                    " <= " + day.getTime(), null);
+
+            if (cursor.moveToFirst()) {
+                return cursor.getInt(0);
+            }
+
+            return 0;
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+    }
+
+    public List<Expense> getExpensesForDay(Date date) {
         date = DateHelper.sanitiseDate(date);
 
         Cursor cursor = null;
