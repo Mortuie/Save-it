@@ -1,6 +1,6 @@
 ![Save it](/media/banner_trans-bg.png)
 
-Save It is a work-in-progress project for a simple budget management Android application.
+**Save It** is a work-in-progress project for a simple budget management Android application.
 
 We are university students who want a simple, easy-to-use, and intuitive budget manager on our smartphones.
 
