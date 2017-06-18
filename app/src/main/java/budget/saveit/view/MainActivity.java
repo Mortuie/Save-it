@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 finish();
                 Intent backToLogin = new Intent(MainActivity.this, LoginScreen.class);
                 startActivity(backToLogin);
-                break;
+                return true;
         }
 
         return id == R.id.action_settings || super.onOptionsItemSelected(item);
