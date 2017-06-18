@@ -1,6 +1,6 @@
 # Save It
 
-Save It is a work-in-progress project for a simple budget managament Android application.
+Save It is a work-in-progress project for a simple budget management Android application.
 
 We are university students who want a simple, easy-to-use, and intuitive budget manager on our smartphones.
 
@@ -17,7 +17,7 @@ This program is free software: you can redistribute it and/or modify it under th
 
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/> or [LICENSE](LICENSE.md).
+You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/> or [LICENSE](LICENSE).
 
 ### Authors
 
