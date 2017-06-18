@@ -1,5 +1,6 @@
 package budget.saveit.view;
 
+import android.content.Intent;
 import android.os.Build;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.melnykov.fab.FloatingActionButton;
 import com.roomorama.caldroid.CaldroidFragment;
@@ -24,6 +26,7 @@ import budget.saveit.R;
 import budget.saveit.model.db.DB;
 import budget.saveit.view.calendar.CalendarFragment;
 import budget.saveit.view.expenses.ExpensesRecyclerViewAdapter;
+import budget.saveit.view.login.LoginScreen;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         budgetLine = (TextView) findViewById(R.id.budgetLine);
         db = new DB(getApplicationContext());
@@ -70,6 +74,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+
+        switch (id) {
+            case android.R.id.home:
+                Toast.makeText(getApplicationContext(), "Back to login", Toast.LENGTH_SHORT).show();
+                finish();
+                Intent backToLogin = new Intent(MainActivity.this, LoginScreen.class);
+                startActivity(backToLogin);
+                return true;
+        }
 
         return id == R.id.action_settings || super.onOptionsItemSelected(item);
     }

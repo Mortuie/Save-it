@@ -40,11 +40,12 @@ public class LoginScreen extends Activity {
             @Override
             public void onClick(View v) {
                 if (username.getText().toString().equals("admin") && password.getText().toString().equals("admin")) {
+                    onDestroy();
                     Toast.makeText(getApplicationContext(), "Redirecting...", Toast.LENGTH_SHORT).show();
                     Intent loginPage = new Intent(LoginScreen.this, MainActivity.class);
                     startActivity(loginPage);
                 } else {
-                    Toast.makeText(getApplicationContext(), "Wrong Credentials", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Wrong combination of details", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -52,6 +53,7 @@ public class LoginScreen extends Activity {
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                onDestroy();
                 Toast.makeText(getApplicationContext(), "Redirecting...", Toast.LENGTH_SHORT).show();
                 Intent signUpPage = new Intent(LoginScreen.this, SignUpPage.class);
                 startActivity(signUpPage);
@@ -64,6 +66,12 @@ public class LoginScreen extends Activity {
                 finish();
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        finish();
     }
 
 
