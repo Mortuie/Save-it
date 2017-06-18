@@ -52,7 +52,6 @@ public class SignUpPage extends Activity {
         });
 
 
-
     }
 
     @Override

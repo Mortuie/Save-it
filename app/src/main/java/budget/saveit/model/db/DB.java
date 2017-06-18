@@ -6,8 +6,6 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
-import org.json.JSONException;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -51,7 +49,7 @@ public final class DB {
     }
 
     private static MonthlyExpense monthlyExpenseFromCursor(Cursor cursor) {
-        return new MonthlyExpense (
+        return new MonthlyExpense(
                 cursor.getString(cursor.getColumnIndex(SQLiteDBHelper.COLUMN_MONTHLY_TITLE)),
                 cursor.getInt(cursor.getColumnIndex(SQLiteDBHelper.COLUMN_MONTHLY_AMOUNT)),
                 new Date(cursor.getInt(cursor.getColumnIndex(SQLiteDBHelper.COLUMN_MONTHLY_RECURRING_DATE))),

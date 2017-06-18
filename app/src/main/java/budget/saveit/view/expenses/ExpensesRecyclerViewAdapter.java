@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -46,8 +47,9 @@ public class ExpensesRecyclerViewAdapter extends RecyclerView.Adapter<ExpensesRe
         Expense expense = expenses.get(i);
 
         viewHolder.expenseTitle.setText(expense.getTitle());
-        viewHolder.expenseAmount.setText("£" + expense.getAmount());
+        viewHolder.expenseAmount.setText(-expense.getAmount() + " GBP");
         viewHolder.monthlyIndicator.setVisibility(expense.isMonthly() ? View.VISIBLE : View.GONE);
+        viewHolder.positiveIndicator.setImageResource(expense.getAmount() < 0 ? R.mipmap.ic_label_green : R.mipmap.ic_label_red);
     }
 
     @Override
@@ -59,6 +61,7 @@ public class ExpensesRecyclerViewAdapter extends RecyclerView.Adapter<ExpensesRe
         public final TextView expenseTitle;
         public final TextView expenseAmount;
         public final ViewGroup monthlyIndicator;
+        public final ImageView positiveIndicator;
 
         public ViewHolder(View v) {
             super(v);
@@ -66,6 +69,7 @@ public class ExpensesRecyclerViewAdapter extends RecyclerView.Adapter<ExpensesRe
             expenseTitle = (TextView) v.findViewById(R.id.expense_title);
             expenseAmount = (TextView) v.findViewById(R.id.expense_amount);
             monthlyIndicator = (ViewGroup) v.findViewById(R.id.monthly_indicator);
+            positiveIndicator = (ImageView) v.findViewById(R.id.positive_indicator);
         }
     }
 }

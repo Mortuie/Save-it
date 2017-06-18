@@ -2,9 +2,9 @@ package budget.saveit.view;
 
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -61,8 +61,6 @@ public class MainActivity extends AppCompatActivity {
         expensesViewAdapter = null;
 
         db.close();
-        db = null;
-        budgetLine = null;
 
         super.onDestroy();
     }
@@ -170,8 +168,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateBalanceDisplayForDay(Date day) {
-        budgetLine.setText("Balance: £" +
+        budgetLine.setText("Balance: " +
                 (Parameters.getInstance(this).getInt(ParameterKeys.BASE_BALANCE, 0) -
-                        db.getBalanceForDay(day)));
+                        db.getBalanceForDay(day)) + " GBP");
     }
 }

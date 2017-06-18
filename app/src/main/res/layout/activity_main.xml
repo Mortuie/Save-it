@@ -22,7 +22,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView android:id="@+id/budgetLine"
+            <TextView
+                android:id="@+id/budgetLine"
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
                 android:background="@color/budget_green"
@@ -61,7 +62,7 @@
                 fab:fab_colorNormal="@color/primary"
                 fab:fab_colorPressed="@color/primary_light"
                 fab:fab_colorRipple="@color/primary"
-                tools:ignore="RtlHardcoded"/>
+                tools:ignore="RtlHardcoded" />
 
         </FrameLayout>
 

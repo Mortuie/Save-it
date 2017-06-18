@@ -9,7 +9,6 @@ import android.widget.TextView;
 import com.roomorama.caldroid.CaldroidGridAdapter;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -27,9 +26,7 @@ public class CalendarGridAdapter extends CaldroidGridAdapter {
     private DB db;
     private int baseBalance;
 
-    public CalendarGridAdapter(Context context, int month, int year,
-                               Map<String, Object> caldroidData,
-                               Map<String, Object> extraData) {
+    public CalendarGridAdapter(Context context, int month, int year, Map<String, Object> caldroidData, Map<String, Object> extraData) {
         super(context, month, year, caldroidData, extraData);
 
         db = new DB(context.getApplicationContext());
@@ -47,19 +44,23 @@ public class CalendarGridAdapter extends CaldroidGridAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View cellView = convertView;
 
+        // For reuse
         if (convertView == null) {
             cellView = createView(parent);
         }
 
+        // Get dateTime of this cell
         DateTime dateTime = this.datetimeList.get(position);
 
         TextView tv1 = (TextView) cellView.findViewById(R.id.grid_cell_tv1);
         TextView tv2 = (TextView) cellView.findViewById(R.id.grid_cell_tv2);
 
-        if ((minDateTime != null && dateTime.lt(minDateTime)) ||
-                (maxDateTime != null && dateTime.gt(maxDateTime)) ||
-                (disableDates != null && disableDatesMap.containsKey(dateTime)) ||
-                (dateTime.getMonth() != month)) {
+        // Customize for disabled dates and date outside min/max dates
+        if ((minDateTime != null && dateTime.lt(minDateTime))
+                || (maxDateTime != null && dateTime.gt(maxDateTime))
+                || (disableDates != null && disableDatesMap.containsKey(dateTime))
+                || (dateTime.getMonth() != month)) {
+
             tv1.setTextColor(context.getResources().getColor(R.color.divider));
             tv2.setTextColor(context.getResources().getColor(R.color.divider));
         } else {
@@ -67,17 +68,20 @@ public class CalendarGridAdapter extends CaldroidGridAdapter {
             tv2.setTextColor(context.getResources().getColor(R.color.secondary_text));
         }
 
+        // Today's cell
         if (dateTime.equals(getToday())) {
+            // Customize for selected dates
             if (selectedDates != null && selectedDatesMap.containsKey(dateTime)) {
                 cellView.setBackgroundResource(R.drawable.custom_grid_today_cell_selected_drawable);
             } else {
                 cellView.setBackgroundResource(R.drawable.custom_grid_today_cell_drawable);
             }
         } else {
+            // Customize for selected dates
             if (selectedDates != null && selectedDatesMap.containsKey(dateTime)) {
-                cellView.setBackgroundResource(R.drawable.custom_grid_today_cell_selected_drawable);
+                cellView.setBackgroundResource(R.drawable.custom_grid_cell_selected_drawable);
             } else {
-                cellView.setBackgroundResource(R.drawable.custom_grid_today_cell_drawable);
+                cellView.setBackgroundResource(R.drawable.custom_grid_cell_drawable);
             }
         }
 
@@ -86,7 +90,7 @@ public class CalendarGridAdapter extends CaldroidGridAdapter {
         Date date = new Date(dateTime.getMilliseconds(TimeZone.getTimeZone("UTC")));
         if (db.hasExpensesForDay(date)) {
             tv2.setVisibility(View.VISIBLE);
-            tv2.setText((baseBalance - db.getBalanceForDay(date)));
+            tv2.setText((baseBalance - db.getBalanceForDay(date)) + "");
         } else {
             tv2.setVisibility(View.INVISIBLE);
         }

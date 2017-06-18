@@ -10,9 +10,9 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:hint = "Username"
-        android:gravity="center"/>
-        android:textAlignment="gravity"
+        android:hint="Username"
+        android:gravity="center" />
+    android:textAlignment="gravity"
 
     <EditText
         android:id="@+id/password"
@@ -20,9 +20,9 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPassword"
-        android:hint = "Password"
+        android:hint="Password"
         android:gravity="center"
-        android:textAlignment="gravity"/>
+        android:textAlignment="gravity" />
 
     <Button
         android:id="@+id/login"

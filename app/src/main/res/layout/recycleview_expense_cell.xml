@@ -3,16 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="60dp"
     android:background="@drawable/recycler_cell_background_drawable"
-    android:clickable="true" >
+    android:clickable="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:paddingLeft="15dp"
-        android:paddingRight="15dp" >
+        android:paddingRight="15dp">
 
         <ImageView
+            android:id="@+id/positive_indicator"
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:src="@mipmap/ic_label_red"
@@ -25,15 +26,17 @@
             android:orientation="vertical"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:gravity="center_vertical" >
+            android:gravity="center_vertical">
 
-            <TextView android:id="@+id/expense_title"
+            <TextView
+                android:id="@+id/expense_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/primary_text"
                 android:layout_marginBottom="1dp" />
 
-            <TextView android:id="@+id/expense_amount"
+            <TextView
+                android:id="@+id/expense_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/secondary_text"
@@ -41,7 +44,8 @@
 
         </LinearLayout>
 
-        <LinearLayout android:id="@+id/monthly_indicator"
+        <LinearLayout
+            android:id="@+id/monthly_indicator"
             android:layout_width="60dp"
             android:layout_height="match_parent"
             android:orientation="vertical"
@@ -51,7 +55,7 @@
                 android:layout_width="26dp"
                 android:layout_height="26dp"
                 android:src="@mipmap/ic_autorenew"
-                android:layout_marginBottom="1dp"/>
+                android:layout_marginBottom="1dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -59,7 +63,7 @@
                 android:textColor="@color/secondary_text"
                 android:textSize="9dp"
                 android:text="MONTHLY"
-                android:layout_marginTop="1dp"/>
+                android:layout_marginTop="1dp" />
 
         </LinearLayout>
 

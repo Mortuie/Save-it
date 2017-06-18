@@ -1,14 +1,6 @@
 package budget.saveit.model;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
-import budget.saveit.helper.DateHelper;
 
 import static budget.saveit.helper.DateHelper.sanitiseDate;
 
