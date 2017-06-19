@@ -44,19 +44,13 @@ public class CalendarGridAdapter extends CaldroidGridAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View cellView = convertView;
-        ViewData viewData = null;
 
         // For reuse
         if (convertView == null) {
             cellView = createView(parent);
-            viewData = new ViewData();
-
-            viewData.day = (TextView) cellView.findViewById(R.id.grid_cell_tv1);
-            viewData.amount = (TextView) cellView.findViewById(R.id.grid_cell_tv2);
-            viewData.cellColorIndicator = cellView.findViewById(R.id.cell_color_indicator);
-        } else {
-            viewData = (ViewData) cellView.getTag();
         }
+
+        ViewData viewData = (ViewData) cellView.getTag();
 
         // Get dateTime of this cell
         DateTime dateTime = this.datetimeList.get(position);
@@ -199,7 +193,16 @@ public class CalendarGridAdapter extends CaldroidGridAdapter {
     }
 
     private View createView(ViewGroup parent) {
-        return LayoutInflater.from(context).inflate(R.layout.custom_grid_cell, parent, false);
+        View v = LayoutInflater.from(context).inflate(R.layout.custom_grid_cell, parent, false);
+        ViewData viewData = new ViewData();
+
+        viewData.day = (TextView) v.findViewById(R.id.grid_cell_tv1);
+        viewData.amount = (TextView) v.findViewById(R.id.grid_cell_tv2);
+        viewData.cellColorIndicator = v.findViewById(R.id.cell_color_indicator);
+
+        v.setTag(viewData);
+
+        return v;
     }
 
     public static class ViewData {
