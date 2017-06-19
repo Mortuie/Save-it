@@ -18,6 +18,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import budget.saveit.R;
+import budget.saveit.helper.CompatHelper;
 import budget.saveit.model.Expense;
 
 /**
@@ -170,6 +171,7 @@ public class AddExpenseActivity extends DBActivity {
 
     private void setDateButton() {
         dateButton = (Button) findViewById(R.id.date_button);
+        CompatHelper.removeButtonBorder(dateButton);
         updateDateButtonDisplay();
 
         dateButton.setOnClickListener(new View.OnClickListener() {

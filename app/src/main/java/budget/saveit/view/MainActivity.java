@@ -24,6 +24,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import budget.saveit.R;
+import budget.saveit.helper.CompatHelper;
 import budget.saveit.helper.ParameterKeys;
 import budget.saveit.helper.Parameters;
 import budget.saveit.view.calendar.CalendarFragment;
@@ -178,10 +179,8 @@ public class MainActivity extends DBActivity {
                 rightButton.setTextColor(MainActivity.this.getResources().getColor(R.color.primary));
                 rightButton.setBackgroundResource(R.drawable.calendar_month_switcher_button_drawable);
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    leftButton.setOutlineProvider(null);
-                    rightButton.setOutlineProvider(null);
-                }
+                CompatHelper.removeButtonBorder(leftButton);
+                CompatHelper.removeButtonBorder(rightButton);
             }
         };
 
@@ -196,7 +195,7 @@ public class MainActivity extends DBActivity {
         expensesRecyclerView = (RecyclerView) findViewById(R.id.expensesRecyclerView);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.attachToRecyclerView(expensesRecyclerView);
+        fab.setColorRipple(getResources().getColor(R.color.accent));
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
