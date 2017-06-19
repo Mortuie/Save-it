@@ -74,10 +74,6 @@ public class CalendarGridAdapter extends CaldroidGridAdapter {
                 cellView.setBackgroundResource(android.R.color.white);
 
                 viewData.isDisabled = true;
-                viewData.isToday = false;
-                viewData.isSelected = false;
-                viewData.containsExpenses = false;
-                viewData.colorIndicatorMarginForToday = false;
             }
         } else if (viewData.isDisabled) {
             tv1.setTextColor(context.getResources().getColor(R.color.primary_text));
@@ -91,6 +87,7 @@ public class CalendarGridAdapter extends CaldroidGridAdapter {
             viewData.isToday = false;
             viewData.containsExpenses = false;
             viewData.colorIndicatorMarginForToday = false;
+            viewData.isOutOfMonth = false;
         }
 
         if (!isDisabled) {
