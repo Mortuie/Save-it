@@ -17,6 +17,8 @@ import budget.saveit.R;
 
 public class AddExpenseActivity extends AppCompatActivity {
     private boolean isRevenue = false;
+    private EditText descriptionEditText;
+    private EditText amountEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +44,9 @@ public class AddExpenseActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_save) {
-            finish();
+            if (validateInput()) {
+                finish();
+            }
             return true;
         } else if (id == android.R.id.home) {
             finish();
@@ -83,7 +87,8 @@ public class AddExpenseActivity extends AppCompatActivity {
         final TextView description = (TextView) findViewById(R.id.description_descriptor);
         final TextView amount = (TextView) findViewById(R.id.amount_descriptor);
 
-        findViewById(R.id.description_edittext).setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        descriptionEditText = (EditText) findViewById(R.id.description_edittext);
+        descriptionEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
@@ -94,7 +99,8 @@ public class AddExpenseActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.amount_edittext).setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        amountEditText = (EditText) findViewById(R.id.amount_edittext);
+        amountEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
@@ -104,5 +110,30 @@ public class AddExpenseActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private boolean validateInput() {
+        boolean ok = true;
+
+        String description = descriptionEditText.getText().toString();
+        if (description.trim().isEmpty()) {
+            descriptionEditText.setError("Enter a description");
+            ok = false;
+        }
+
+        String amount = amountEditText.getText().toString();
+
+        try {
+            int value = Integer.parseInt(amount);
+            if (value <= 0) {
+                amountEditText.setError("Amount should be greater than 0.");
+                ok = false;
+            }
+        } catch (Exception e) {
+            amountEditText.setError("Not a valid amount");
+            ok = false;
+        }
+
+        return ok;
     }
 }
