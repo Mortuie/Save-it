@@ -3,6 +3,7 @@ package budget.saveit.view;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -164,6 +165,13 @@ public class MainActivity extends AppCompatActivity {
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.attachToRecyclerView(expensesRecyclerView);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityCompat.startActivity(MainActivity.this, new Intent(MainActivity.this, AddExpenseActivity.class), null);
+            }
+        });
 
         expensesLayoutManager = new LinearLayoutManager(this);
         expensesRecyclerView.setLayoutManager(expensesLayoutManager);
