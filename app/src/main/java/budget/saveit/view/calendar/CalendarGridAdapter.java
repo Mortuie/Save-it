@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.roomorama.caldroid.CaldroidGridAdapter;
 
 import java.util.Date;
-import java.util.Map;
+import java.util.HashMap;
 import java.util.TimeZone;
 
 import budget.saveit.R;
@@ -27,7 +27,7 @@ public class CalendarGridAdapter extends CaldroidGridAdapter {
     private DB db;
     private int baseBalance;
 
-    public CalendarGridAdapter(Context context, int month, int year, Map<String, Object> caldroidData, Map<String, Object> extraData) {
+    public CalendarGridAdapter(Context context, int month, int year, HashMap<String, Object> caldroidData, HashMap<String, Object> extraData) {
         super(context, month, year, caldroidData, extraData);
 
         db = new DB(context.getApplicationContext());
