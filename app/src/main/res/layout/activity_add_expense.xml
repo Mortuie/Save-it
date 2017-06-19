@@ -148,7 +148,7 @@
                         android:textSize="14dp"
                         android:layout_marginBottom="5dp" />
 
-                    <budget.saveit.helper.PaddingEditText
+                    <Button android:id="@+id/date_button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/primary_text"

@@ -1,14 +1,19 @@
 package budget.saveit.view;
 
+import android.app.DatePickerDialog;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.Calendar;
+import java.util.Date;
 
 import budget.saveit.R;
 
@@ -16,10 +21,12 @@ import budget.saveit.R;
  * Created by hampe on 19 June 2017.
  */
 
-public class AddExpenseActivity extends AppCompatActivity {
+public class AddExpenseActivity extends DBActivity {
     private boolean isRevenue = false;
     private EditText descriptionEditText;
     private EditText amountEditText;
+    private Button dateButton;
+    private Date date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +36,11 @@ public class AddExpenseActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        date = (Date) getIntent().getSerializableExtra("date");
+
         setButtons();
         setTextFields();
+        setDateButton();
     }
 
     @Override
@@ -145,5 +155,34 @@ public class AddExpenseActivity extends AppCompatActivity {
         }
 
         return ok;
+    }
+
+    private void setDateButton() {
+        dateButton = (Button) findViewById(R.id.date_button);
+        updateDateButtonDisplay();
+
+        dateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialogFragment fragment = new DatePickerDialogFragment(date, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        Calendar cal = Calendar.getInstance();
+
+                        cal.set(Calendar.YEAR, year);
+                        cal.set(Calendar.MONTH, monthOfYear);
+                        cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                        date = cal.getTime();
+                        updateDateButtonDisplay();
+                    }
+                });
+                fragment.show(getSupportFragmentManager(), "datePicker");
+            }
+        });
+    }
+
+    private void updateDateButtonDisplay() {
+        dateButton.setText(date.toString());
     }
 }

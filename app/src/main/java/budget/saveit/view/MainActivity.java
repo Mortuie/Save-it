@@ -5,7 +5,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -27,19 +26,17 @@ import java.util.Date;
 import budget.saveit.R;
 import budget.saveit.helper.ParameterKeys;
 import budget.saveit.helper.Parameters;
-import budget.saveit.model.db.DB;
 import budget.saveit.view.calendar.CalendarFragment;
 import budget.saveit.view.expenses.ExpensesRecyclerViewAdapter;
 import budget.saveit.view.login.LoginScreen;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends DBActivity {
 
     private CalendarFragment calendarFragment;
     private RecyclerView expensesRecyclerView;
     private LinearLayoutManager expensesLayoutManager;
     private ExpensesRecyclerViewAdapter expensesViewAdapter;
 
-    private DB db;
     private TextView budgetLine;
 
     private static final String CALENDAR_SAVED_STATE = "calendar_saved_state";
@@ -52,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         budgetLine = (TextView) findViewById(R.id.budgetLine);
-        db = new DB(getApplicationContext());
 
         initCalendarFragment(savedInstanceState);
         initRecyclerView(savedInstanceState);
@@ -64,8 +60,6 @@ public class MainActivity extends AppCompatActivity {
         expensesLayoutManager = null;
         expensesRecyclerView = null;
         expensesViewAdapter = null;
-
-        db.close();
 
         super.onDestroy();
     }
@@ -190,7 +184,10 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityCompat.startActivity(MainActivity.this, new Intent(MainActivity.this, AddExpenseActivity.class), null);
+                Intent startIntent = new Intent(MainActivity.this, AddExpenseActivity.class);
+                startIntent.putExtra("date", calendarFragment.getSelectedDate());
+
+                ActivityCompat.startActivity(MainActivity.this, startIntent, null);
             }
         });
 
