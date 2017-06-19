@@ -1,5 +1,6 @@
 package budget.saveit.view;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -93,8 +94,10 @@ public class AddExpenseActivity extends AppCompatActivity {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
                     description.setTextColor(getResources().getColor(R.color.accent));
+                    description.setTypeface(null, Typeface.BOLD);
                 } else {
                     description.setTextColor(getResources().getColor(R.color.secondary_text));
+                    description.setTypeface(null, Typeface.BOLD);
                 }
             }
         });
@@ -105,8 +108,10 @@ public class AddExpenseActivity extends AppCompatActivity {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
                     amount.setTextColor(getResources().getColor(R.color.accent));
+                    amount.setTypeface(null, Typeface.BOLD);
                 } else {
                     amount.setTextColor(getResources().getColor(R.color.secondary_text));
+                    amount.setTypeface(null, Typeface.BOLD);
                 }
             }
         });
@@ -123,15 +128,20 @@ public class AddExpenseActivity extends AppCompatActivity {
 
         String amount = amountEditText.getText().toString();
 
-        try {
-            int value = Integer.parseInt(amount);
-            if (value <= 0) {
-                amountEditText.setError("Amount should be greater than 0.");
+        if (amount.trim().isEmpty()) {
+            amountEditText.setError("Enter an amount");
+            ok = false;
+        } else {
+            try {
+                int value = Integer.parseInt(amount);
+                if (value <= 0) {
+                    amountEditText.setError("Amount should be greater than 0");
+                    ok = false;
+                }
+            } catch (Exception e) {
+                amountEditText.setError("Not a valid amount");
                 ok = false;
             }
-        } catch (Exception e) {
-            amountEditText.setError("Not a valid amount");
-            ok = false;
         }
 
         return ok;
