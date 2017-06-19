@@ -16,6 +16,7 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import budget.saveit.R;
 import budget.saveit.helper.CompatHelper;
@@ -196,7 +197,7 @@ public class AddExpenseActivity extends DBActivity {
     }
 
     private void updateDateButtonDisplay() {
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("MMM dd yyyy");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("MMM dd yyyy", Locale.UK);
         dateButton.setText(formatter.format(date));
     }
 }

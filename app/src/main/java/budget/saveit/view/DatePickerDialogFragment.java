@@ -1,6 +1,7 @@
 package budget.saveit.view;
 
 import android.annotation.SuppressLint;
+import android.support.annotation.NonNull;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
@@ -36,6 +37,7 @@ public class DatePickerDialogFragment extends DialogFragment {
     }
 
     @Override
+    @NonNull
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final Calendar c = Calendar.getInstance();
         c.setTime(originalDate);

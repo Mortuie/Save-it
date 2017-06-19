@@ -84,11 +84,8 @@ public final class DB {
         try {
             cursor = database.rawQuery("SELECT COUNT(*) FROM " + SQLiteDBHelper.TABLE_EXPENSE +
                     " WHERE " + SQLiteDBHelper.COLUMN_EXPENSE_DATE + " = " + day.getTime(), null);
-            if (cursor.moveToFirst()) {
-                return cursor.getInt(0) > 0;
-            }
 
-            return false;
+            return cursor.moveToFirst() && cursor.getInt(0) > 0;
         } finally {
             if (cursor != null) {
                 cursor.close();

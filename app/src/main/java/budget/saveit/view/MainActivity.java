@@ -210,7 +210,7 @@ public class MainActivity extends DBActivity {
         expensesLayoutManager = new LinearLayoutManager(this);
         expensesRecyclerView.setLayoutManager(expensesLayoutManager);
 
-        Date date = null;
+        Date date;
         if (savedInstanceState != null && savedInstanceState.containsKey(RECYCLE_VIEW_SAVED_DATE)) {
             date = (Date) savedInstanceState.getSerializable(RECYCLE_VIEW_SAVED_DATE);
         } else {

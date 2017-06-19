@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="budget.saveit">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".SaveIt"
         android:allowBackup="true"
@@ -10,8 +12,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <uses-permission android:name="android.permission.INTERNET" />
 
         <activity android:name=".view.login.LoginScreen">
             <intent-filter>
