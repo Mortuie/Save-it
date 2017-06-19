@@ -1,5 +1,6 @@
 package budget.saveit.view;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -183,6 +185,7 @@ public class AddExpenseActivity extends DBActivity {
     }
 
     private void updateDateButtonDisplay() {
-        dateButton.setText(date.toString());
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("MMM dd yyyy");
+        dateButton.setText(formatter.format(date));
     }
 }
