@@ -18,6 +18,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import budget.saveit.R;
+import budget.saveit.model.Expense;
 
 /**
  * Created by hampe on 19 June 2017.
@@ -43,6 +44,8 @@ public class AddExpenseActivity extends DBActivity {
         setButtons();
         setTextFields();
         setDateButton();
+
+        setResult(RESULT_CANCELED);
     }
 
     @Override
@@ -58,6 +61,12 @@ public class AddExpenseActivity extends DBActivity {
 
         if (id == R.id.action_save) {
             if (validateInput()) {
+                int value = Integer.parseInt(amountEditText.getText().toString());
+
+                Expense expense = new Expense(descriptionEditText.getText().toString(), isRevenue ? -value : value, date);
+                db.addExpense(expense);
+
+                setResult(RESULT_OK);
                 finish();
             }
             return true;

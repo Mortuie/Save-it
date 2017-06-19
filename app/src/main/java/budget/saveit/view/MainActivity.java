@@ -42,6 +42,23 @@ public class MainActivity extends DBActivity {
     private static final String CALENDAR_SAVED_STATE = "calendar_saved_state";
     private static final String RECYCLE_VIEW_SAVED_DATE = "recycleViewSavedDate";
 
+    private static final int ADD_EXPENSE_ACTIVITY_CODE = 101;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == ADD_EXPENSE_ACTIVITY_CODE) {
+            if (resultCode == RESULT_OK) {
+                calendarFragment.refreshView();
+                updateBalanceDisplayForDay(calendarFragment.getSelectedDate());
+
+                expensesViewAdapter = new ExpensesRecyclerViewAdapter(db, calendarFragment.getSelectedDate());
+                expensesRecyclerView.swapAdapter(expensesViewAdapter, true);
+            }
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -187,7 +204,7 @@ public class MainActivity extends DBActivity {
                 Intent startIntent = new Intent(MainActivity.this, AddExpenseActivity.class);
                 startIntent.putExtra("date", calendarFragment.getSelectedDate());
 
-                ActivityCompat.startActivity(MainActivity.this, startIntent, null);
+                ActivityCompat.startActivityForResult(MainActivity.this, startIntent, ADD_EXPENSE_ACTIVITY_CODE, null);
             }
         });
 
