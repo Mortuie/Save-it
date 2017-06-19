@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 
 import budget.saveit.R;
 
@@ -12,6 +14,8 @@ import budget.saveit.R;
  */
 
 public class AddExpenseActivity extends AppCompatActivity {
+    private boolean isRevenue = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,6 +23,8 @@ public class AddExpenseActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        setButtons();
     }
 
     @Override
@@ -41,5 +47,32 @@ public class AddExpenseActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setButtons() {
+        final ImageView paymentCheckboxImageView = (ImageView) findViewById(R.id.payment_checkbox_imageview);
+        final ImageView revenueCheckboxImageView = (ImageView) findViewById(R.id.revenue_checkbox_imageview);
+
+        findViewById(R.id.payment_button_view).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isRevenue) {
+                    isRevenue = false;
+                    paymentCheckboxImageView.setImageResource(R.mipmap.ic_radio_button_on);
+                    revenueCheckboxImageView.setImageResource(R.mipmap.ic_radio_button_off);
+                }
+            }
+        });
+
+        findViewById(R.id.revenue_button_view).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isRevenue) {
+                    isRevenue = true;
+                    paymentCheckboxImageView.setImageResource(R.mipmap.ic_radio_button_off);
+                    revenueCheckboxImageView.setImageResource(R.mipmap.ic_radio_button_on);
+                }
+            }
+        });
     }
 }
