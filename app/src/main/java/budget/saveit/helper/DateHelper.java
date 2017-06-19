@@ -11,7 +11,6 @@ import java.util.TimeZone;
 public class DateHelper {
     public static Date sanitiseDate(Date date) {
         Calendar calendar = Calendar.getInstance();
-        calendar.setTimeZone(TimeZone.getTimeZone("GMT"));
         calendar.setTime(date);
 
         calendar.set(Calendar.HOUR_OF_DAY, 0);

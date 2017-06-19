@@ -61,28 +61,48 @@ public class CalendarGridAdapter extends CaldroidGridAdapter {
         // Get dateTime of this cell
         DateTime dateTime = this.datetimeList.get(position);
         boolean isToday = dateTime.equals(getToday());
+        boolean isDisabled = (minDateTime != null && dateTime.lt(minDateTime)) ||
+                (maxDateTime != null && dateTime.gt(maxDateTime)) ||
+                (disableDates != null && disableDatesMap.containsKey(dateTime));
+        boolean isOutOfMonth = dateTime.getMonth() != month;
 
         TextView tv1 = viewData.day;
         TextView tv2 = viewData.amount;
         View cellColorIndicator = viewData.cellColorIndicator;
 
         // Customize for disabled dates and date outside min/max dates
-        if ((minDateTime != null && dateTime.lt(minDateTime))
-                || (maxDateTime != null && dateTime.gt(maxDateTime))
-                || (disableDates != null && disableDatesMap.containsKey(dateTime))
-                || (dateTime.getMonth() != month)) {
-
+        if (isDisabled) {
             if (!viewData.isDisabled) {
-                tv1.setTextColor(context.getResources().getColor(R.color.divider));
-                tv2.setTextColor(context.getResources().getColor(R.color.divider));
+                tv1.setTextColor(context.getResources().getColor(R.color.calendar_cell_disabled_text_color));
+                tv2.setTextColor(context.getResources().getColor(R.color.calendar_cell_disabled_text_color));
+                cellView.setBackgroundResource(android.R.color.white);
 
                 viewData.isDisabled = true;
+                viewData.isToday = false;
+                viewData.isSelected = false;
             }
         } else if (viewData.isDisabled) {
             tv1.setTextColor(context.getResources().getColor(R.color.primary_text));
             tv2.setTextColor(context.getResources().getColor(R.color.secondary_text));
+            cellView.setBackgroundResource(R.drawable.custom_grid_cell_drawable);
 
             viewData.isDisabled = false;
+            viewData.isSelected = false;
+            viewData.isToday = false;
+        }
+
+        if (isOutOfMonth && !isDisabled) {
+            if (!viewData.isOutOfMonth) {
+                tv1.setTextColor(context.getResources().getColor(R.color.divider));
+                tv2.setTextColor(context.getResources().getColor(R.color.divider));
+
+                viewData.isOutOfMonth = true;
+            }
+        } else if (!isDisabled && viewData.isOutOfMonth) {
+            tv1.setTextColor(context.getResources().getColor(R.color.primary_text));
+            tv2.setTextColor(context.getResources().getColor(R.color.secondary_text));
+
+            viewData.isOutOfMonth = false;
         }
 
         // Today's cell
@@ -179,6 +199,7 @@ public class CalendarGridAdapter extends CaldroidGridAdapter {
         public TextView amount;
         public View cellColorIndicator;
         public boolean isDisabled = false;
+        public boolean isOutOfMonth = false;
         public boolean isToday = false;
         public boolean isSelected = false;
         public boolean containsExpenses = false;

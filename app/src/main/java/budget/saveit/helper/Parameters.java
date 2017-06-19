@@ -20,6 +20,10 @@ public class Parameters {
         preferences = context.getApplicationContext().getSharedPreferences(SHARED_PREFERENCES_FILE_NAME, Context.MODE_PRIVATE);
     }
 
+    public void putInt(String key, long value) {
+        preferences.edit().putLong(key, value).apply();
+    }
+
     public void putInt(String key, int value) {
         preferences.edit().putInt(key, value).apply();
     }
@@ -34,6 +38,10 @@ public class Parameters {
 
     public int getInt(String key, int defaultValue) {
         return preferences.getInt(key, defaultValue);
+    }
+
+    public long getLong(String key, long defaultValue) {
+        return preferences.getLong(key, defaultValue);
     }
 
     public Boolean getBoolean(String key, boolean defaultValue) {
