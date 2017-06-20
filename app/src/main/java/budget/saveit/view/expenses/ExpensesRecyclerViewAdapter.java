@@ -1,5 +1,8 @@
 package budget.saveit.view.expenses;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +16,8 @@ import java.util.List;
 import budget.saveit.R;
 import budget.saveit.model.Expense;
 import budget.saveit.model.db.DB;
+import budget.saveit.view.ExpenseEditActivity;
+import budget.saveit.view.MainActivity;
 
 /**
  * Created by aa on 12/06/17.
@@ -21,16 +26,22 @@ import budget.saveit.model.db.DB;
 public class ExpensesRecyclerViewAdapter extends RecyclerView.Adapter<ExpensesRecyclerViewAdapter.ViewHolder> {
     private List<Expense> expenses;
     private Date date;
+    private Activity activity;
 
-    public ExpensesRecyclerViewAdapter(DB db, Date date) {
+    public ExpensesRecyclerViewAdapter(Activity activity, DB db, Date date) {
         if (db == null) {
             throw new NullPointerException("DB is null XD");
+        }
+
+        if (activity == null) {
+            throw new NullPointerException("Activity is null XD");
         }
 
         if (date == null) {
             throw new NullPointerException("Date is null XD");
         }
 
+        this.activity = activity;
         this.date = date;
         this.expenses = db.getExpensesForDay(date);
     }
@@ -42,13 +53,24 @@ public class ExpensesRecyclerViewAdapter extends RecyclerView.Adapter<ExpensesRe
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        Expense expense = expenses.get(i);
+    public void onBindViewHolder(final ViewHolder viewHolder, int i) {
+        final Expense expense = expenses.get(i);
 
         viewHolder.expenseTitle.setText(expense.getTitle());
         viewHolder.expenseAmount.setText(-expense.getAmount() + " GBP");
         viewHolder.monthlyIndicator.setVisibility(expense.isMonthly() ? View.VISIBLE : View.GONE);
         viewHolder.positiveIndicator.setImageResource(expense.getAmount() < 0 ? R.mipmap.ic_label_green : R.mipmap.ic_label_red);
+
+        viewHolder.view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent startIntent = new Intent(viewHolder.view.getContext(), ExpenseEditActivity.class);
+                startIntent.putExtra("date", expense.getDate());
+                startIntent.putExtra("expense", expense);
+
+                ActivityCompat.startActivityForResult(activity, startIntent, MainActivity.ADD_EXPENSE_ACTIVITY_CODE, null);
+            }
+        });
     }
 
     @Override
@@ -65,10 +87,12 @@ public class ExpensesRecyclerViewAdapter extends RecyclerView.Adapter<ExpensesRe
         public final TextView expenseAmount;
         public final ViewGroup monthlyIndicator;
         public final ImageView positiveIndicator;
+        public final View view;
 
         public ViewHolder(View v) {
             super(v);
 
+            view = v;
             expenseTitle = (TextView) v.findViewById(R.id.expense_title);
             expenseAmount = (TextView) v.findViewById(R.id.expense_amount);
             monthlyIndicator = (ViewGroup) v.findViewById(R.id.monthly_indicator);

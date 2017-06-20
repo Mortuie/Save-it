@@ -26,12 +26,13 @@ import budget.saveit.model.Expense;
  * Created by hampe on 19 June 2017.
  */
 
-public class AddExpenseActivity extends DBActivity {
+public class ExpenseEditActivity extends DBActivity {
     private boolean isRevenue = false;
     private EditText descriptionEditText;
     private EditText amountEditText;
     private Button dateButton;
     private Date date;
+    private Expense expense;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,13 @@ public class AddExpenseActivity extends DBActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         date = (Date) getIntent().getSerializableExtra("date");
+
+        if (getIntent().hasExtra("expense")) {
+            expense = (Expense) getIntent().getSerializableExtra("expense");
+            isRevenue = expense.getAmount() < 0;
+
+            setTitle(getResources().getString(R.string.title_activity_edit_expense));
+        }
 
         setButtons();
         setTextFields();
@@ -125,6 +133,10 @@ public class AddExpenseActivity extends DBActivity {
             }
         });
 
+        if (expense != null) {
+            descriptionEditText.setText(expense.getTitle());
+        }
+
         amountEditText = (EditText) findViewById(R.id.amount_edittext);
         amountEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -138,6 +150,10 @@ public class AddExpenseActivity extends DBActivity {
                 }
             }
         });
+
+        if (expense != null) {
+            amountEditText.setText(String.valueOf(expense.getAmount()));
+        }
     }
 
     private boolean validateInput() {

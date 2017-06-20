@@ -1,7 +1,6 @@
 package budget.saveit.view;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
@@ -43,7 +42,7 @@ public class MainActivity extends DBActivity {
     private static final String CALENDAR_SAVED_STATE = "calendar_saved_state";
     private static final String RECYCLE_VIEW_SAVED_DATE = "recycleViewSavedDate";
 
-    private static final int ADD_EXPENSE_ACTIVITY_CODE = 101;
+    public static final int ADD_EXPENSE_ACTIVITY_CODE = 101;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -54,7 +53,7 @@ public class MainActivity extends DBActivity {
                 calendarFragment.refreshView();
                 updateBalanceDisplayForDay(calendarFragment.getSelectedDate());
 
-                expensesViewAdapter = new ExpensesRecyclerViewAdapter(db, calendarFragment.getSelectedDate());
+                expensesViewAdapter = new ExpensesRecyclerViewAdapter(this, db, calendarFragment.getSelectedDate());
                 expensesRecyclerView.swapAdapter(expensesViewAdapter, true);
             }
         }
@@ -145,7 +144,7 @@ public class MainActivity extends DBActivity {
         final CaldroidListener listener = new CaldroidListener() {
             @Override
             public void onSelectDate(Date date, View view) {
-                expensesViewAdapter = new ExpensesRecyclerViewAdapter(db, date);
+                expensesViewAdapter = new ExpensesRecyclerViewAdapter(MainActivity.this, db, date);
                 expensesRecyclerView.swapAdapter(expensesViewAdapter, true);
 
                 calendarFragment.setSelectedDates(date, date);
@@ -200,7 +199,7 @@ public class MainActivity extends DBActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent startIntent = new Intent(MainActivity.this, AddExpenseActivity.class);
+                Intent startIntent = new Intent(MainActivity.this, ExpenseEditActivity.class);
                 startIntent.putExtra("date", calendarFragment.getSelectedDate());
 
                 ActivityCompat.startActivityForResult(MainActivity.this, startIntent, ADD_EXPENSE_ACTIVITY_CODE, null);
@@ -217,7 +216,7 @@ public class MainActivity extends DBActivity {
             date = new Date();
         }
 
-        expensesViewAdapter = new ExpensesRecyclerViewAdapter(db, date);
+        expensesViewAdapter = new ExpensesRecyclerViewAdapter(this, db, date);
         expensesRecyclerView.setAdapter(expensesViewAdapter);
 
         updateBalanceDisplayForDay(date);

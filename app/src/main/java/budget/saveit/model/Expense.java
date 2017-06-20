@@ -1,5 +1,6 @@
 package budget.saveit.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import budget.saveit.helper.DateHelper;
@@ -8,7 +9,7 @@ import budget.saveit.helper.DateHelper;
  * Created by aa on 17/06/17.
  */
 
-public class Expense {
+public class Expense implements Serializable {
     private Long id;
     private String title;
     private int amount;
