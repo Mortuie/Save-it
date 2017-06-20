@@ -100,7 +100,7 @@ public class MainActivity extends DBActivity {
                     refreshAllForDate(expensesViewAdapter.getDate());
 
                     Snackbar snackbar = Snackbar.make(expensesRecyclerView, R.string.expense_delete_snackbar_text, Snackbar.LENGTH_LONG);
-                    snackbar.setAction(R.string.expense_delete_snackbar_cancel_action, new View.OnClickListener() {
+                    snackbar.setAction(R.string.cancel, new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             db.addExpense(expense);
@@ -180,11 +180,24 @@ public class MainActivity extends DBActivity {
                     int newBalance = Integer.valueOf(amountEditText.getText().toString());
                     int diff = newBalance - currentBalance;
 
-                    Expense expense = new Expense(getResources().getString(R.string.adjust_balance_expense_title), -diff, new Date());
+                    final Expense expense = new Expense(getResources().getString(R.string.adjust_balance_expense_title), -diff, new Date());
                     db.addExpense(expense);
 
                     refreshAllForDate(expensesViewAdapter.getDate());
                     dialogInterface.dismiss();
+
+                    Snackbar snackbar = Snackbar.make(expensesRecyclerView,
+                            String.format(getResources().getString(R.string.adjust_balance_snackbar_text),
+                                    newBalance + " GBP"), Snackbar.LENGTH_LONG);
+                    snackbar.setAction(R.string.cancel, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            db.deleteExpense(expense);
+                            refreshAllForDate(expensesViewAdapter.getDate());
+                        }
+                    });
+
+                    snackbar.show();
                 }
             });
 
