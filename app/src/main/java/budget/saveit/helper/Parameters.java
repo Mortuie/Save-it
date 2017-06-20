@@ -20,7 +20,7 @@ public class Parameters {
         preferences = context.getApplicationContext().getSharedPreferences(SHARED_PREFERENCES_FILE_NAME, Context.MODE_PRIVATE);
     }
 
-    public void putInt(String key, long value) {
+    public void putLong(String key, long value) {
         preferences.edit().putLong(key, value).apply();
     }
 
