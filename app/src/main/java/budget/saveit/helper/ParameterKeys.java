@@ -6,5 +6,5 @@ package budget.saveit.helper;
 
 public class ParameterKeys {
     public static final String BASE_BALANCE = "basebalance";
-    public static final String BASE_BALANCE_DATE = "basebalancedate";
+    public static final String INIT_DATE = "init_date";
 }

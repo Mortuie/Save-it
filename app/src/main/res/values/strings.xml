@@ -11,4 +11,10 @@
     </string-array>
     <string name="expense_delete_snackbar_text">Expense deleted</string>
     <string name="expense_delete_snackbar_cancel_action">Cancel</string>
+    <string name="action_balance">Adjust balance</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="adjust_balance_title">New balance</string>
+    <string name="adjust_balance_message">Adjust today\'s balance</string>
+    <string name="adjust_balance_expense_title">Balance</string>
 </resources>

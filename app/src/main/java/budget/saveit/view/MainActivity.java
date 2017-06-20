@@ -2,13 +2,16 @@ package budget.saveit.view;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.annotation.IntegerRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -16,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -93,9 +97,7 @@ public class MainActivity extends DBActivity {
                 if (INTENT_EXPENSE_DELETED.equals(intent.getAction())) {
                     final Expense expense = (Expense) intent.getSerializableExtra("expense");
 
-                    refreshRecyclerViewForDate(expensesViewAdapter.getDate());
-                    updateBalanceDisplayForDay(expensesViewAdapter.getDate());
-                    calendarFragment.refreshView();
+                    refreshAllForDate(expensesViewAdapter.getDate());
 
                     Snackbar snackbar = Snackbar.make(expensesRecyclerView, R.string.expense_delete_snackbar_text, Snackbar.LENGTH_LONG);
                     snackbar.setAction(R.string.expense_delete_snackbar_cancel_action, new View.OnClickListener() {
@@ -103,9 +105,7 @@ public class MainActivity extends DBActivity {
                         public void onClick(View view) {
                             db.addExpense(expense);
 
-                            refreshRecyclerViewForDate(expensesViewAdapter.getDate());
-                            updateBalanceDisplayForDay(expensesViewAdapter.getDate());
-                            calendarFragment.refreshView();
+                            refreshAllForDate(expensesViewAdapter.getDate());
                         }
                     });
 
@@ -153,16 +153,46 @@ public class MainActivity extends DBActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        switch (id) {
-            case android.R.id.home:
-                Toast.makeText(getApplicationContext(), "Back to login", Toast.LENGTH_SHORT).show();
-                finish();
-                Intent backToLogin = new Intent(MainActivity.this, LoginScreen.class);
-                startActivity(backToLogin);
-                return true;
+        if (id == R.id.action_settings) {
+            return true;
+        } else if (id == R.id.action_balance) {
+            final int currentBalance = -db.getBalanceForDay(new Date());
+
+            View dialogView = getLayoutInflater().inflate(R.layout.dialog_adjust_balance, null);
+            final EditText amountEditText = (EditText) dialogView.findViewById(R.id.balance_amount);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(R.string.adjust_balance_title);
+            builder.setMessage(R.string.adjust_balance_message);
+            builder.setMessage(R.string.adjust_balance_message);
+            builder.setView(dialogView);
+
+            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+
+            builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    int newBalance = Integer.valueOf(amountEditText.getText().toString());
+                    int diff = newBalance - currentBalance;
+
+                    Expense expense = new Expense(getResources().getString(R.string.adjust_balance_expense_title), diff, new Date());
+                    db.addExpense(expense);
+
+                    refreshAllForDate(expensesViewAdapter.getDate());
+                    dialogInterface.dismiss();
+                }
+            });
+
+            builder.show();
+            return true;
         }
 
-        return id == R.id.action_settings || super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item);
     }
 
     private void initCalendarFragment(Bundle savedInstanceState) {
@@ -183,7 +213,7 @@ public class MainActivity extends DBActivity {
             calendarFragment.setArguments(args);
             calendarFragment.setSelectedDates(new Date(), new Date());
 
-            Date minDate = new Date(Parameters.getInstance(this).getLong(ParameterKeys.BASE_BALANCE_DATE, new Date().getTime()));
+            Date minDate = new Date(Parameters.getInstance(this).getLong(ParameterKeys.INIT_DATE, new Date().getTime()));
             calendarFragment.setMinDate(minDate);
         }
 
@@ -269,7 +299,7 @@ public class MainActivity extends DBActivity {
     }
 
     private void updateBalanceDisplayForDay(Date day) {
-        int balance = Parameters.getInstance(this).getInt(ParameterKeys.BASE_BALANCE, 0) - db.getBalanceForDay(day);
+        int balance = db.getBalanceForDay(day);
 
         budgetLine.setText("Balance: " + balance + " GBP");
 
@@ -280,5 +310,11 @@ public class MainActivity extends DBActivity {
         } else {
             budgetLine.setBackgroundResource(R.color.budget_green);
         }
+    }
+
+    private void refreshAllForDate(Date date) {
+        refreshRecyclerViewForDate(date);
+        updateBalanceDisplayForDay(date);
+        calendarFragment.refreshView();
     }
 }
