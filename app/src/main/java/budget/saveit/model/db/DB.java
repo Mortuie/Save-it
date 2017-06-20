@@ -151,7 +151,7 @@ public final class DB {
                 cursor.getLong(cursor.getColumnIndex(SQLiteDBHelper.COLUMN_EXPENSE_DB_ID)),
                 cursor.getString(cursor.getColumnIndex(SQLiteDBHelper.COLUMN_EXPENSE_TITLE)),
                 cursor.getInt(cursor.getColumnIndex(SQLiteDBHelper.COLUMN_EXPENSE_AMOUNT)),
-                new Date(cursor.getInt(cursor.getColumnIndex(SQLiteDBHelper.COLUMN_EXPENSE_DATE))),
+                new Date(cursor.getLong(cursor.getColumnIndex(SQLiteDBHelper.COLUMN_EXPENSE_DATE))),
                 monthlyID > 0 ? monthlyID : null
         );
     }
@@ -175,5 +175,9 @@ public final class DB {
         }
 
         return database.insert(SQLiteDBHelper.TABLE_MONTHLY_EXPENSE, null, generateContentValuesForMonthlyExpense(expense));
+    }
+
+    public boolean deleteExpense(Expense expense) {
+        return database.delete(SQLiteDBHelper.TABLE_EXPENSE, SQLiteDBHelper.COLUMN_EXPENSE_DB_ID + " = " + expense.getId(), null) > 0;
     }
 }

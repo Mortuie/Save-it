@@ -2,6 +2,7 @@ package budget.saveit.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,6 +27,7 @@ import budget.saveit.R;
 import budget.saveit.helper.CompatHelper;
 import budget.saveit.helper.ParameterKeys;
 import budget.saveit.helper.Parameters;
+import budget.saveit.model.Expense;
 import budget.saveit.view.calendar.CalendarFragment;
 import budget.saveit.view.expenses.ExpensesRecyclerViewAdapter;
 import budget.saveit.view.login.LoginScreen;
@@ -57,6 +59,34 @@ public class MainActivity extends DBActivity {
                 expensesRecyclerView.swapAdapter(expensesViewAdapter, true);
             }
         }
+    }
+
+    public void onExpenseDeleted(final Expense expense) {
+        expense.setId(null);
+
+        expensesViewAdapter = new ExpensesRecyclerViewAdapter(this, db, expensesViewAdapter.getDate());
+        expensesRecyclerView.setAdapter(expensesViewAdapter);
+
+        updateBalanceDisplayForDay(expensesViewAdapter.getDate());
+
+        calendarFragment.refreshView();
+
+        Snackbar snackbar = Snackbar.make(expensesRecyclerView, R.string.expense_delete_snackbar_text, Snackbar.LENGTH_LONG);
+        snackbar.setAction(R.string.expense_delete_snackbar_cancel_action, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                db.addExpense(expense);
+
+                expensesViewAdapter = new ExpensesRecyclerViewAdapter(MainActivity.this, db, expensesViewAdapter.getDate());
+                expensesRecyclerView.setAdapter(expensesViewAdapter);
+
+                updateBalanceDisplayForDay(expensesViewAdapter.getDate());
+
+                calendarFragment.refreshView();
+            }
+        });
+
+        snackbar.show();
     }
 
     @Override
