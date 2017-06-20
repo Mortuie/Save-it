@@ -1,10 +1,14 @@
 package budget.saveit.view;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -39,11 +43,14 @@ public class MainActivity extends DBActivity {
     private LinearLayoutManager expensesLayoutManager;
     private ExpensesRecyclerViewAdapter expensesViewAdapter;
 
+    private BroadcastReceiver receiver;
+
     private TextView budgetLine;
 
     private static final String CALENDAR_SAVED_STATE = "calendar_saved_state";
     private static final String RECYCLE_VIEW_SAVED_DATE = "recycleViewSavedDate";
 
+    public static final String INTENT_EXPENSE_DELETED = "intent.expense.deleted";
     public static final int ADD_EXPENSE_ACTIVITY_CODE = 101;
 
     @Override
@@ -61,32 +68,9 @@ public class MainActivity extends DBActivity {
         }
     }
 
-    public void onExpenseDeleted(final Expense expense) {
-        expense.setId(null);
-
-        expensesViewAdapter = new ExpensesRecyclerViewAdapter(this, db, expensesViewAdapter.getDate());
+    public void refreshRecyclerViewForDate(Date date) {
+        expensesViewAdapter = new ExpensesRecyclerViewAdapter(this, db, date);
         expensesRecyclerView.setAdapter(expensesViewAdapter);
-
-        updateBalanceDisplayForDay(expensesViewAdapter.getDate());
-
-        calendarFragment.refreshView();
-
-        Snackbar snackbar = Snackbar.make(expensesRecyclerView, R.string.expense_delete_snackbar_text, Snackbar.LENGTH_LONG);
-        snackbar.setAction(R.string.expense_delete_snackbar_cancel_action, new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                db.addExpense(expense);
-
-                expensesViewAdapter = new ExpensesRecyclerViewAdapter(MainActivity.this, db, expensesViewAdapter.getDate());
-                expensesRecyclerView.setAdapter(expensesViewAdapter);
-
-                updateBalanceDisplayForDay(expensesViewAdapter.getDate());
-
-                calendarFragment.refreshView();
-            }
-        });
-
-        snackbar.show();
     }
 
     @Override
@@ -99,6 +83,38 @@ public class MainActivity extends DBActivity {
 
         initCalendarFragment(savedInstanceState);
         initRecyclerView(savedInstanceState);
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(INTENT_EXPENSE_DELETED);
+
+        receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (INTENT_EXPENSE_DELETED.equals(intent.getAction())) {
+                    final Expense expense = (Expense) intent.getSerializableExtra("expense");
+
+                    refreshRecyclerViewForDate(expensesViewAdapter.getDate());
+                    updateBalanceDisplayForDay(expensesViewAdapter.getDate());
+                    calendarFragment.refreshView();
+
+                    Snackbar snackbar = Snackbar.make(expensesRecyclerView, R.string.expense_delete_snackbar_text, Snackbar.LENGTH_LONG);
+                    snackbar.setAction(R.string.expense_delete_snackbar_cancel_action, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            db.addExpense(expense);
+
+                            refreshRecyclerViewForDate(expensesViewAdapter.getDate());
+                            updateBalanceDisplayForDay(expensesViewAdapter.getDate());
+                            calendarFragment.refreshView();
+                        }
+                    });
+
+                    snackbar.show();
+                }
+            }
+        };
+
+        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(receiver, filter);
     }
 
     @Override
@@ -107,6 +123,8 @@ public class MainActivity extends DBActivity {
         expensesLayoutManager = null;
         expensesRecyclerView = null;
         expensesViewAdapter = null;
+
+        LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(receiver);
 
         super.onDestroy();
     }
@@ -174,8 +192,7 @@ public class MainActivity extends DBActivity {
         final CaldroidListener listener = new CaldroidListener() {
             @Override
             public void onSelectDate(Date date, View view) {
-                expensesViewAdapter = new ExpensesRecyclerViewAdapter(MainActivity.this, db, date);
-                expensesRecyclerView.swapAdapter(expensesViewAdapter, true);
+                refreshRecyclerViewForDate(date);
 
                 calendarFragment.setSelectedDates(date, date);
                 calendarFragment.refreshView();
@@ -246,8 +263,7 @@ public class MainActivity extends DBActivity {
             date = new Date();
         }
 
-        expensesViewAdapter = new ExpensesRecyclerViewAdapter(this, db, date);
-        expensesRecyclerView.setAdapter(expensesViewAdapter);
+        refreshRecyclerViewForDate(date);
 
         updateBalanceDisplayForDay(date);
     }
