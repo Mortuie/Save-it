@@ -161,12 +161,18 @@ public final class DB {
         database.delete(SQLiteDBHelper.TABLE_MONTHLY_EXPENSE, null, null);
     }
 
-    public long addExpense(Expense expense) {
+    public boolean addExpense(Expense expense) {
         if (expense == null) {
             throw new NullPointerException("Expense is null XD");
         }
 
-        return database.insert(SQLiteDBHelper.TABLE_EXPENSE, null, generateContentValuesForExpense(expense));
+        long id = database.insert(SQLiteDBHelper.TABLE_EXPENSE, null, generateContentValuesForExpense(expense));
+        if (id > 0) {
+            expense.setID(id);
+            return true;
+        }
+
+        return false;
     }
 
     public long addMonthlyExpense(MonthlyExpense expense) {

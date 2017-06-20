@@ -55,7 +55,7 @@ public class Expense implements Serializable {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setID(Long id) {
         this.id = id;
     }
 

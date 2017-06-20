@@ -66,7 +66,7 @@ public class ExpensesRecyclerViewAdapter extends RecyclerView.Adapter<ExpensesRe
         viewHolder.monthlyIndicator.setVisibility(expense.isMonthly() ? View.VISIBLE : View.GONE);
         viewHolder.positiveIndicator.setImageResource(expense.getAmount() < 0 ? R.mipmap.ic_label_green : R.mipmap.ic_label_red);
 
-        viewHolder.view.setOnClickListener(new View.OnClickListener() {
+        final View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!expense.isMonthly()) {
@@ -96,6 +96,16 @@ public class ExpensesRecyclerViewAdapter extends RecyclerView.Adapter<ExpensesRe
 
                     builder.show();
                 }
+            }
+        };
+
+        viewHolder.view.setOnClickListener(onClickListener);
+
+        viewHolder.view.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                onClickListener.onClick(v);
+                return true;
             }
         });
     }
