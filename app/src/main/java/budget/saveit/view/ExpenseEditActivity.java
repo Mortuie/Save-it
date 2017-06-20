@@ -48,7 +48,7 @@ public class ExpenseEditActivity extends DBActivity {
             expense = (Expense) getIntent().getSerializableExtra("expense");
             isRevenue = expense.getAmount() < 0;
 
-            setTitle(getResources().getString(R.string.title_activity_edit_expense));
+            setTitle(R.string.title_activity_edit_expense);
         }
 
         setButtons();

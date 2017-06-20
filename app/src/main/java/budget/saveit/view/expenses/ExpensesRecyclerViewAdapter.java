@@ -1,8 +1,10 @@
 package budget.saveit.view.expenses;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,11 +66,25 @@ public class ExpensesRecyclerViewAdapter extends RecyclerView.Adapter<ExpensesRe
         viewHolder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent startIntent = new Intent(viewHolder.view.getContext(), ExpenseEditActivity.class);
-                startIntent.putExtra("date", expense.getDate());
-                startIntent.putExtra("expense", expense);
+                if (!expense.isMonthly()) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                    builder.setTitle(R.string.dialog_edit_expense_title);
+                    builder.setItems(R.array.dialog_edit_expense_choices, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            switch (i) {
+                                case 0: {
+                                    Intent startIntent = new Intent(viewHolder.view.getContext(), ExpenseEditActivity.class);
+                                    startIntent.putExtra("date", expense.getDate());
+                                    startIntent.putExtra("expense", expense);
 
-                ActivityCompat.startActivityForResult(activity, startIntent, MainActivity.ADD_EXPENSE_ACTIVITY_CODE, null);
+                                    ActivityCompat.startActivityForResult(activity, startIntent, MainActivity.ADD_EXPENSE_ACTIVITY_CODE, null);
+                                }
+                            }
+                        }
+                    });
+                    builder.show();
+                }
             }
         });
     }
