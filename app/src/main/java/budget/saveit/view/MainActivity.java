@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.annotation.IntegerRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
@@ -21,7 +20,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.melnykov.fab.FloatingActionButton;
 import com.roomorama.caldroid.CaldroidFragment;
@@ -38,24 +36,19 @@ import budget.saveit.helper.Parameters;
 import budget.saveit.model.Expense;
 import budget.saveit.view.calendar.CalendarFragment;
 import budget.saveit.view.expenses.ExpensesRecyclerViewAdapter;
-import budget.saveit.view.login.LoginScreen;
 
 public class MainActivity extends DBActivity {
 
+    public static final String INTENT_EXPENSE_DELETED = "intent.expense.deleted";
+    public static final int ADD_EXPENSE_ACTIVITY_CODE = 101;
+    private static final String CALENDAR_SAVED_STATE = "calendar_saved_state";
+    private static final String RECYCLE_VIEW_SAVED_DATE = "recycleViewSavedDate";
     private CalendarFragment calendarFragment;
     private RecyclerView expensesRecyclerView;
     private LinearLayoutManager expensesLayoutManager;
     private ExpensesRecyclerViewAdapter expensesViewAdapter;
-
     private BroadcastReceiver receiver;
-
     private TextView budgetLine;
-
-    private static final String CALENDAR_SAVED_STATE = "calendar_saved_state";
-    private static final String RECYCLE_VIEW_SAVED_DATE = "recycleViewSavedDate";
-
-    public static final String INTENT_EXPENSE_DELETED = "intent.expense.deleted";
-    public static final int ADD_EXPENSE_ACTIVITY_CODE = 101;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

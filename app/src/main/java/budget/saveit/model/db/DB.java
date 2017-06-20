@@ -68,6 +68,25 @@ public final class DB {
         return values;
     }
 
+    private static Expense expenseFromCursor(Cursor cursor) {
+        long monthlyID = 0;
+        try {
+            monthlyID = cursor.getLong(cursor.getColumnIndex(SQLiteDBHelper.COLUMN_EXPENSE_MONTHLY_ID));
+        } catch (Exception e) {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+        return new Expense(
+                cursor.getLong(cursor.getColumnIndex(SQLiteDBHelper.COLUMN_EXPENSE_DB_ID)),
+                cursor.getString(cursor.getColumnIndex(SQLiteDBHelper.COLUMN_EXPENSE_TITLE)),
+                cursor.getInt(cursor.getColumnIndex(SQLiteDBHelper.COLUMN_EXPENSE_AMOUNT)),
+                new Date(cursor.getLong(cursor.getColumnIndex(SQLiteDBHelper.COLUMN_EXPENSE_DATE))),
+                monthlyID > 0 ? monthlyID : null
+        );
+    }
+
     public void close() {
         try {
             database.close();
@@ -135,25 +154,6 @@ public final class DB {
                 cursor.close();
             }
         }
-    }
-
-    private static Expense expenseFromCursor(Cursor cursor) {
-        long monthlyID = 0;
-        try {
-            monthlyID = cursor.getLong(cursor.getColumnIndex(SQLiteDBHelper.COLUMN_EXPENSE_MONTHLY_ID));
-        } catch (Exception e) {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-
-        return new Expense(
-                cursor.getLong(cursor.getColumnIndex(SQLiteDBHelper.COLUMN_EXPENSE_DB_ID)),
-                cursor.getString(cursor.getColumnIndex(SQLiteDBHelper.COLUMN_EXPENSE_TITLE)),
-                cursor.getInt(cursor.getColumnIndex(SQLiteDBHelper.COLUMN_EXPENSE_AMOUNT)),
-                new Date(cursor.getLong(cursor.getColumnIndex(SQLiteDBHelper.COLUMN_EXPENSE_DATE))),
-                monthlyID > 0 ? monthlyID : null
-        );
     }
 
     public void clearDB() {

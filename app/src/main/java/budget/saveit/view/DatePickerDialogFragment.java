@@ -1,10 +1,10 @@
 package budget.saveit.view;
 
 import android.annotation.SuppressLint;
-import android.support.annotation.NonNull;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 
 import java.util.Calendar;

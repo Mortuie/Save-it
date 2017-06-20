@@ -14,8 +14,6 @@ import java.util.HashMap;
 import java.util.TimeZone;
 
 import budget.saveit.R;
-import budget.saveit.helper.ParameterKeys;
-import budget.saveit.helper.Parameters;
 import budget.saveit.model.db.DB;
 import hirondelle.date4j.DateTime;
 

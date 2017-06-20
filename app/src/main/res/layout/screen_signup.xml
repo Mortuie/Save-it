@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <EditText
         android:id="@+id/username"
@@ -19,50 +19,50 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:gravity="center"
         android:hint="First Name"
-        android:textAlignment="gravity"
-        android:gravity="center" />
+        android:inputType="textPersonName"
+        android:textAlignment="gravity" />
 
     <EditText
         android:id="@+id/surname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:gravity="center"
         android:hint="Surname"
-        android:textAlignment="gravity"
-        android:gravity="center" />
+        android:inputType="textPersonName"
+        android:textAlignment="gravity" />
 
     <EditText
         android:id="@+id/email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:gravity="center"
         android:hint="Email address"
-        android:textAlignment="gravity"
-        android:gravity="center" />
+        android:inputType="textPersonName"
+        android:textAlignment="gravity" />
 
     <EditText
         android:id="@+id/password1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPassword"
+        android:gravity="center"
         android:hint="password"
-        android:textAlignment="gravity"
-        android:gravity="center" />
+        android:inputType="textPassword"
+        android:textAlignment="gravity" />
 
     <EditText
         android:id="@+id/password2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:gravity="center"
         android:hint="password"
         android:inputType="textPassword"
-        android:textAlignment="gravity"
-        android:gravity="center" />
+        android:textAlignment="gravity" />
 
     <Button
         android:id="@+id/createAccount"

@@ -7,9 +7,6 @@ import java.util.Date;
 import budget.saveit.helper.Logger;
 import budget.saveit.helper.ParameterKeys;
 import budget.saveit.helper.Parameters;
-import budget.saveit.model.Expense;
-import budget.saveit.model.MonthlyExpense;
-import budget.saveit.model.db.DB;
 
 /**
  * Created by aa on 12/06/17.
@@ -21,7 +18,7 @@ public class SaveIt extends Application {
     public void onCreate() {
         super.onCreate();
 
-       firstLaunchActions();
+        firstLaunchActions();
     }
 
     private void firstLaunchActions() {

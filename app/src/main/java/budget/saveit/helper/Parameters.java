@@ -9,8 +9,8 @@ import android.content.SharedPreferences;
 
 public class Parameters {
     private static final String SHARED_PREFERENCES_FILE_NAME = "saveit_sp";
-    private SharedPreferences preferences;
     private static Parameters instance;
+    private SharedPreferences preferences;
 
     private Parameters(Context context) {
         if (context == null) {
@@ -18,6 +18,14 @@ public class Parameters {
         }
 
         preferences = context.getApplicationContext().getSharedPreferences(SHARED_PREFERENCES_FILE_NAME, Context.MODE_PRIVATE);
+    }
+
+    public static synchronized Parameters getInstance(Context context) {
+        if (instance == null) {
+            instance = new Parameters(context);
+        }
+
+        return instance;
     }
 
     public void putLong(String key, long value) {
@@ -50,13 +58,5 @@ public class Parameters {
 
     public String getString(String key) {
         return preferences.getString(key, null);
-    }
-
-    public static synchronized Parameters getInstance(Context context) {
-        if (instance == null) {
-            instance = new Parameters(context);
-        }
-
-        return instance;
     }
 }

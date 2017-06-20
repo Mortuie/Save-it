@@ -16,31 +16,31 @@
             android:id="@+id/positive_indicator"
             android:layout_width="28dp"
             android:layout_height="28dp"
-            android:src="@mipmap/ic_label_red"
-            android:layout_gravity="center_vertical" />
+            android:layout_gravity="center_vertical"
+            android:src="@mipmap/ic_label_red" />
 
         <LinearLayout
             android:layout_width="0dip"
-            android:layout_weight="1"
             android:layout_height="match_parent"
-            android:orientation="vertical"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:gravity="center_vertical">
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/expense_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/primary_text"
-                android:layout_marginBottom="1dp" />
+                android:layout_marginBottom="1dp"
+                android:textColor="@color/primary_text" />
 
             <TextView
                 android:id="@+id/expense_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/secondary_text"
-                android:layout_marginTop="1dp" />
+                android:layout_marginTop="1dp"
+                android:textColor="@color/secondary_text" />
 
         </LinearLayout>
 
@@ -48,22 +48,22 @@
             android:id="@+id/monthly_indicator"
             android:layout_width="60dp"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="vertical">
 
             <ImageView
                 android:layout_width="26dp"
                 android:layout_height="26dp"
-                android:src="@mipmap/ic_autorenew"
-                android:layout_marginBottom="1dp" />
+                android:layout_marginBottom="1dp"
+                android:src="@mipmap/ic_autorenew" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/secondary_text"
-                android:textSize="9dp"
+                android:layout_marginTop="1dp"
                 android:text="MONTHLY"
-                android:layout_marginTop="1dp" />
+                android:textColor="@color/secondary_text"
+                android:textSize="9dp" />
 
         </LinearLayout>
 
@@ -73,7 +73,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dip"
-        android:background="@color/divider"
-        android:layout_alignParentBottom="true" />
+        android:layout_alignParentBottom="true"
+        android:background="@color/divider" />
 
 </RelativeLayout>

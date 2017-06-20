@@ -9,9 +9,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:gravity="center"
         android:hint="Username"
-        android:gravity="center" />
+        android:inputType="textPersonName" />
     android:textAlignment="gravity"
 
     <EditText
@@ -19,9 +19,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPassword"
-        android:hint="Password"
         android:gravity="center"
+        android:hint="Password"
+        android:inputType="textPassword"
         android:textAlignment="gravity" />
 
     <Button
