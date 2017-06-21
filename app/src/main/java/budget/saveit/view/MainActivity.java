@@ -228,12 +228,8 @@ public class MainActivity extends DBActivity {
         final CaldroidListener listener = new CaldroidListener() {
             @Override
             public void onSelectDate(Date date, View view) {
-                refreshRecyclerViewForDate(date);
-
                 calendarFragment.setSelectedDates(date, date);
-                calendarFragment.refreshView();
-
-                updateBalanceDisplayForDay(date);
+                refreshAllForDate(date);
             }
 
             @Override
