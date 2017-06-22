@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -124,10 +125,10 @@ public class ExpenseEditActivity extends DBActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    description.setTextColor(getResources().getColor(R.color.accent));
+                    description.setTextColor(ContextCompat.getColor(ExpenseEditActivity.this, R.color.accent));
                     description.setTypeface(null, Typeface.BOLD);
                 } else {
-                    description.setTextColor(getResources().getColor(R.color.secondary_text));
+                    description.setTextColor(ContextCompat.getColor(ExpenseEditActivity.this, R.color.secondary_text));
                     description.setTypeface(null, Typeface.BOLD);
                 }
             }
@@ -142,10 +143,10 @@ public class ExpenseEditActivity extends DBActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    amount.setTextColor(getResources().getColor(R.color.accent));
+                    amount.setTextColor(ContextCompat.getColor(ExpenseEditActivity.this, R.color.accent));
                     amount.setTypeface(null, Typeface.BOLD);
                 } else {
-                    amount.setTextColor(getResources().getColor(R.color.secondary_text));
+                    amount.setTextColor(ContextCompat.getColor(ExpenseEditActivity.this, R.color.secondary_text));
                     amount.setTypeface(null, Typeface.BOLD);
                 }
             }

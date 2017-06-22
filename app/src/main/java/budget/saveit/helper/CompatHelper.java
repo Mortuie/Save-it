@@ -1,6 +1,7 @@
 package budget.saveit.helper;
 
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.widget.Button;
 
 /**
@@ -8,8 +9,8 @@ import android.widget.Button;
  */
 
 public class CompatHelper {
-    public static void removeButtonBorder(Button button) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+    public static void removeButtonBorder(@NonNull Button button) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             button.setOutlineProvider(null);
         }
     }

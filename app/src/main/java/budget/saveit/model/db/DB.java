@@ -22,7 +22,6 @@ import budget.saveit.model.MonthlyExpense;
 public final class DB {
     private Context context;
     private SQLiteDatabase database;
-    private SQLiteDBHelper helper;
 
     public DB(Context context) throws SQLException {
         if (context == null) {
@@ -30,7 +29,7 @@ public final class DB {
         }
 
         this.context = context.getApplicationContext();
-        helper = new SQLiteDBHelper(this.context);
+        SQLiteDBHelper helper = new SQLiteDBHelper(this.context);
         database = helper.getWritableDatabase();
     }
 
@@ -91,7 +90,6 @@ public final class DB {
     public void close() {
         try {
             database.close();
-            helper = null;
         } catch (Exception e) {
             Logger.error("Error while closing SQLiteDatabase", e);
         }
