@@ -1,6 +1,8 @@
 package budget.saveit.view;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -17,6 +19,8 @@ import budget.saveit.view.monthly.MonthlyRecyclerViewAdapter;
  */
 
 public class MonthlyExpensesManageActivity extends DBActivity {
+    private static final int EDIT_MONTHLY_EXPENSE_ACTIVITY_CODE = 1000;
+
     private RecyclerView expensesRecyclerView;
     private MonthlyRecyclerViewAdapter expensesViewAdapter;
 
@@ -29,6 +33,17 @@ public class MonthlyExpensesManageActivity extends DBActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         initRecyclerView(savedInstanceState);
+
+        setResult(RESULT_CANCELED);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            setResult(RESULT_OK);
+        }
     }
 
     @Override
@@ -56,7 +71,9 @@ public class MonthlyExpensesManageActivity extends DBActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent startIntent = new Intent(MonthlyExpensesManageActivity.this, MonthlyExpensesEditActivity.class);
 
+                ActivityCompat.startActivityForResult(MonthlyExpensesManageActivity.this, startIntent, EDIT_MONTHLY_EXPENSE_ACTIVITY_CODE, null);
             }
         });
 
