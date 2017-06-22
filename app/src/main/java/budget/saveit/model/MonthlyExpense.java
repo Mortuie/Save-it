@@ -13,6 +13,7 @@ public class MonthlyExpense {
     private Date recurringDate;
     private int amount;
     private boolean modified = false;
+    private Long id;
 
 
     public MonthlyExpense(String title, int startAmount, Date recurringDate) {
@@ -34,9 +35,10 @@ public class MonthlyExpense {
         this.recurringDate = sanitiseDate(recurringDate);
     }
 
-    public MonthlyExpense(String title, int startAmount, Date recurringDate, boolean modified) {
+    public MonthlyExpense(Long id, String title, int startAmount, Date recurringDate, boolean modified) {
         this(title, startAmount, recurringDate);
 
+        this.id = id;
         this.modified = modified;
     }
 
@@ -54,5 +56,13 @@ public class MonthlyExpense {
 
     public Date getRecurringDate() {
         return recurringDate;
+    }
+
+    public Long getID() {
+        return id;
+    }
+
+    public void setID(Long id) {
+        this.id = id;
     }
 }

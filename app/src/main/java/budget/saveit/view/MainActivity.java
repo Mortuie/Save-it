@@ -34,8 +34,8 @@ import budget.saveit.helper.CompatHelper;
 import budget.saveit.helper.ParameterKeys;
 import budget.saveit.helper.Parameters;
 import budget.saveit.model.Expense;
-import budget.saveit.view.calendar.CalendarFragment;
-import budget.saveit.view.expenses.ExpensesRecyclerViewAdapter;
+import budget.saveit.view.main.calendar.CalendarFragment;
+import budget.saveit.view.main.expenses.ExpensesRecyclerViewAdapter;
 
 public class MainActivity extends DBActivity {
 
@@ -56,11 +56,7 @@ public class MainActivity extends DBActivity {
 
         if (requestCode == ADD_EXPENSE_ACTIVITY_CODE) {
             if (resultCode == RESULT_OK) {
-                calendarFragment.refreshView();
-                updateBalanceDisplayForDay(calendarFragment.getSelectedDate());
-
-                expensesViewAdapter = new ExpensesRecyclerViewAdapter(this, db, calendarFragment.getSelectedDate());
-                expensesRecyclerView.swapAdapter(expensesViewAdapter, true);
+                refreshAllForDate(calendarFragment.getSelectedDate());
             }
         }
     }
@@ -74,13 +70,12 @@ public class MainActivity extends DBActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         budgetLine = (TextView) findViewById(R.id.budgetLine);
-
         initCalendarFragment(savedInstanceState);
         initRecyclerView(savedInstanceState);
 
+        // Register receiver
         IntentFilter filter = new IntentFilter();
         filter.addAction(INTENT_EXPENSE_DELETED);
 
@@ -90,24 +85,30 @@ public class MainActivity extends DBActivity {
                 if (INTENT_EXPENSE_DELETED.equals(intent.getAction())) {
                     final Expense expense = (Expense) intent.getSerializableExtra("expense");
 
-                    refreshAllForDate(expensesViewAdapter.getDate());
+                    if (db.deleteExpense(expense)) {
+                        refreshAllForDate(expensesViewAdapter.getDate());
 
-                    Snackbar snackbar = Snackbar.make(expensesRecyclerView, R.string.expense_delete_snackbar_text, Snackbar.LENGTH_LONG);
-                    snackbar.setAction(R.string.cancel, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            db.addExpense(expense);
+                        Snackbar snackbar = Snackbar.make(expensesRecyclerView, R.string.expense_delete_snackbar_text, Snackbar.LENGTH_LONG);
+                        snackbar.setAction(R.string.cancel, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                db.addExpense(expense);
 
-                            refreshAllForDate(expensesViewAdapter.getDate());
-                        }
-                    });
+                                refreshAllForDate(expensesViewAdapter.getDate());
+                            }
+                        });
 
-                    snackbar.show();
+                        snackbar.show();
+                    } else {
+                        // TODO warn user of error
+                    }
+
                 }
             }
         };
 
         LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(receiver, filter);
+
     }
 
     @Override
@@ -146,6 +147,7 @@ public class MainActivity extends DBActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
+        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         } else if (id == R.id.action_balance) {
@@ -153,23 +155,22 @@ public class MainActivity extends DBActivity {
 
             View dialogView = getLayoutInflater().inflate(R.layout.dialog_adjust_balance, null);
             final EditText amountEditText = (EditText) dialogView.findViewById(R.id.balance_amount);
+            amountEditText.setText(String.valueOf(currentBalance));
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.adjust_balance_title);
             builder.setMessage(R.string.adjust_balance_message);
-            builder.setMessage(R.string.adjust_balance_message);
             builder.setView(dialogView);
-
             builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    dialogInterface.dismiss();
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
                 }
             });
-
             builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
+                public void onClick(DialogInterface dialog, int which) {
+                    // Adjust balance
                     int newBalance = Integer.valueOf(amountEditText.getText().toString());
                     int diff = newBalance - currentBalance;
 
@@ -177,15 +178,15 @@ public class MainActivity extends DBActivity {
                     db.addExpense(expense);
 
                     refreshAllForDate(expensesViewAdapter.getDate());
-                    dialogInterface.dismiss();
+                    dialog.dismiss();
 
-                    Snackbar snackbar = Snackbar.make(expensesRecyclerView,
-                            String.format(getResources().getString(R.string.adjust_balance_snackbar_text),
-                                    newBalance + " GBP"), Snackbar.LENGTH_LONG);
+                    //Show snackbar TODO money formatting
+                    Snackbar snackbar = Snackbar.make(expensesRecyclerView, String.format(getResources().getString(R.string.adjust_balance_snackbar_text), newBalance + "€"), Snackbar.LENGTH_LONG);
                     snackbar.setAction(R.string.cancel, new View.OnClickListener() {
                         @Override
-                        public void onClick(View view) {
+                        public void onClick(View v) {
                             db.deleteExpense(expense);
+
                             refreshAllForDate(expensesViewAdapter.getDate());
                         }
                     });
@@ -195,6 +196,13 @@ public class MainActivity extends DBActivity {
             });
 
             builder.show();
+
+            return true;
+        } else if (id == R.id.action_add_monthly_expense) {
+            Intent startIntent = new Intent(MainActivity.this, MonthlyExpensesManageActivity.class);
+            startIntent.putExtra("date", calendarFragment.getSelectedDate());
+
+            ActivityCompat.startActivity(MainActivity.this, startIntent, null);
             return true;
         }
 

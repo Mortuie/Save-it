@@ -1,4 +1,4 @@
-package budget.saveit.view.calendar;
+package budget.saveit.view.main.calendar;
 
 import android.content.Context;
 import android.view.LayoutInflater;

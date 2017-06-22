@@ -50,6 +50,7 @@ public final class DB {
 
     private static MonthlyExpense monthlyExpenseFromCursor(Cursor cursor) {
         return new MonthlyExpense(
+                cursor.getLong(cursor.getColumnIndex(SQLiteDBHelper.COLUMN_MONTHLY_DB_ID)),
                 cursor.getString(cursor.getColumnIndex(SQLiteDBHelper.COLUMN_MONTHLY_TITLE)),
                 cursor.getInt(cursor.getColumnIndex(SQLiteDBHelper.COLUMN_MONTHLY_AMOUNT)),
                 new Date(cursor.getInt(cursor.getColumnIndex(SQLiteDBHelper.COLUMN_MONTHLY_RECURRING_DATE))),
@@ -175,12 +176,37 @@ public final class DB {
         return false;
     }
 
-    public long addMonthlyExpense(MonthlyExpense expense) {
+    public boolean addMonthlyExpense(MonthlyExpense expense) {
         if (expense == null) {
             throw new NullPointerException("Expense is null XD");
         }
 
-        return database.insert(SQLiteDBHelper.TABLE_MONTHLY_EXPENSE, null, generateContentValuesForMonthlyExpense(expense));
+        long id = database.insert(SQLiteDBHelper.TABLE_MONTHLY_EXPENSE, null, generateContentValuesForMonthlyExpense(expense));
+
+        if (id > 0) {
+            expense.setID(id);
+            return true;
+        }
+
+        return false;
+    }
+
+    public List<MonthlyExpense> getAllMonthlyExpenses() {
+        Cursor cursor = null;
+        try {
+            List<MonthlyExpense> expenses = new ArrayList<>();
+
+            cursor = database.query(SQLiteDBHelper.TABLE_MONTHLY_EXPENSE, null, null, null, null, null, null, null);
+            while (cursor.moveToNext()) {
+                expenses.add(monthlyExpenseFromCursor(cursor));
+            }
+
+            return expenses;
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
     }
 
     public boolean deleteExpense(Expense expense) {

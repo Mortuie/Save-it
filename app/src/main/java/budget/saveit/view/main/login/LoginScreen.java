@@ -1,4 +1,4 @@
-package budget.saveit.view.login;
+package budget.saveit.view.main.login;
 
 import android.app.Activity;
 import android.content.Intent;

@@ -1,4 +1,4 @@
-package budget.saveit.view.expenses;
+package budget.saveit.view.main.expenses;
 
 import android.app.Activity;
 import android.content.DialogInterface;

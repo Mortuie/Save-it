@@ -1,20 +1,25 @@
 <resources>
     <string name="app_name">Save It</string>
     <string name="action_settings">Settings</string>
+    <string name="action_balance">Adjust balance</string>
+    <string name="action_add_monthly_expense">Manage monthly expenses</string>
     <string name="action_save">Save</string>
     <string name="title_activity_add_expense">Add Expense</string>
     <string name="title_activity_edit_expense">Edit Expense</string>
+    <string name="title_activity_add_monthly_expense">Manage Monthly Expenses</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+
     <string name="dialog_edit_expense_title">What do you want to do?</string>
     <string-array name="dialog_edit_expense_choices">
         <item>Edit expense</item>
         <item>Delete expense</item>
     </string-array>
     <string name="expense_delete_snackbar_text">Expense deleted</string>
-    <string name="action_balance">Adjust balance</string>
-    <string name="cancel">Cancel</string>
-    <string name="ok">OK</string>
+
     <string name="adjust_balance_title">New balance</string>
     <string name="adjust_balance_message">Adjust today\'s balance</string>
     <string name="adjust_balance_expense_title">Balance</string>
     <string name="adjust_balance_snackbar_text">Balance adjusted to %s</string>
+    <item name="action_add_monthly_expense" type="id">Manage monthly expenses</item>
 </resources>
