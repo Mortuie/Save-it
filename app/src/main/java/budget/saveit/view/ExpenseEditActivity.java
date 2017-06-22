@@ -60,7 +60,7 @@ public class ExpenseEditActivity extends DBActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_add_expense, menu);
+        getMenuInflater().inflate(R.menu.menu_expense_edit, menu);
 
         return true;
     }

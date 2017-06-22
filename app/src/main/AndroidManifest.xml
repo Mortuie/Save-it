@@ -45,6 +45,14 @@
             android:label="@string/title_activity_add_expense"
             android:screenOrientation="portrait" />
         <activity android:name=".view.main.login.SignUpPage" />
+
+        <activity
+            android:name=".view.MonthlyExpenseEditActivity"
+            android:configChanges="locale|keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_monthly_expense_add"
+            android:screenOrientation="portrait">
+        </activity>
+        
     </application>
 
 </manifest>
