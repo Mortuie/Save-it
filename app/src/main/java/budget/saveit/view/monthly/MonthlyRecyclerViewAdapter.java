@@ -19,15 +19,13 @@ import budget.saveit.model.db.DB;
  */
 
 public class MonthlyRecyclerViewAdapter extends RecyclerView.Adapter<MonthlyRecyclerViewAdapter.ViewHolder> {
-    private Activity activity;
     private List<MonthlyExpense> expenses;
 
-    public MonthlyRecyclerViewAdapter(Activity activity, DB db) {
-        if (db == null || activity == null) {
-            throw new NullPointerException("db or activity is null XD");
+    public MonthlyRecyclerViewAdapter(DB db) {
+        if (db == null) {
+            throw new NullPointerException("db is null XD");
         }
 
-        this.activity = activity;
         this.expenses = db.getAllMonthlyExpenses();
     }
 

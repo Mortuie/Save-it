@@ -232,7 +232,7 @@ public class MainActivity extends DBActivity {
             calendarFragment.setMinDate(minDate);
         }
 
-        WeekdayArrayAdapter.textColor = getResources().getColor(R.color.secondary_text);
+        WeekdayArrayAdapter.textColor = getColor(R.color.secondary_text);
 
         final CaldroidListener listener = new CaldroidListener() {
             @Override
@@ -252,18 +252,18 @@ public class MainActivity extends DBActivity {
                 Button rightButton = calendarFragment.getRightArrowButton();
                 TextView textView = calendarFragment.getMonthTitleTextView();
 
-                textView.setTextColor(MainActivity.this.getResources().getColor(R.color.primary_text));
+                textView.setTextColor(MainActivity.this.getColor(R.color.primary_text));
 
                 leftButton.setText("<");
                 leftButton.setTextSize(25);
                 leftButton.setGravity(Gravity.CENTER);
-                leftButton.setTextColor(MainActivity.this.getResources().getColor(R.color.primary));
+                leftButton.setTextColor(MainActivity.this.getColor(R.color.primary));
                 leftButton.setBackgroundResource(R.drawable.calendar_month_switcher_button_drawable);
 
                 rightButton.setText(">");
                 rightButton.setTextSize(25);
                 rightButton.setGravity(Gravity.CENTER);
-                rightButton.setTextColor(MainActivity.this.getResources().getColor(R.color.primary));
+                rightButton.setTextColor(MainActivity.this.getColor(R.color.primary));
                 rightButton.setBackgroundResource(R.drawable.calendar_month_switcher_button_drawable);
 
                 CompatHelper.removeButtonBorder(leftButton);
@@ -282,7 +282,7 @@ public class MainActivity extends DBActivity {
         expensesRecyclerView = (RecyclerView) findViewById(R.id.expensesRecyclerView);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setColorRipple(getResources().getColor(R.color.accent));
+        fab.setColorRipple(getColor(R.color.accent));
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -67,7 +67,7 @@ public class MonthlyExpensesManageActivity extends DBActivity {
         expensesRecyclerView = (RecyclerView) findViewById(R.id.monthlyExpensesRecyclerView);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.monthlyFab);
-        fab.setColorRipple(getResources().getColor(R.color.accent));
+        fab.setColorRipple(getColor(R.color.accent));
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,7 +79,7 @@ public class MonthlyExpensesManageActivity extends DBActivity {
 
         expensesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        expensesViewAdapter = new MonthlyRecyclerViewAdapter(this, db);
+        expensesViewAdapter = new MonthlyRecyclerViewAdapter(db);
         expensesRecyclerView.setAdapter(expensesViewAdapter);
     }
 }
