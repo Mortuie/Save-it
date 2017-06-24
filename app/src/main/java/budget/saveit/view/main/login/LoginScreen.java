@@ -63,7 +63,7 @@ public class LoginScreen extends Activity {
         quit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                onDestroy();
             }
         });
     }
