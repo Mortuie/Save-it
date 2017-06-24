@@ -14,9 +14,14 @@
         android:theme="@style/AppTheme"
         android:fullBackupContent="true">
 
-        <activity android:name=".view.main.login.LoginScreen">
+        <activity
+            android:name=".view.main.login.LoginScreen">
+            android:configChanges="locale|keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
+                <action android:name="android.intent.action.LAUNCHER" />
             </intent-filter>
         </activity>
 
@@ -43,7 +48,9 @@
             android:configChanges="locale|keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_add_expense"
             android:screenOrientation="portrait" />
-        <activity android:name=".view.main.login.SignUpPage" />
+
+        <activity
+            android:name=".view.main.login.SignUpPage" />
 
         <activity
             android:name=".view.MonthlyExpensesEditActivity"
