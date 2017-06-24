@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.melnykov.fab.FloatingActionButton;
 import com.roomorama.caldroid.CaldroidFragment;
@@ -37,6 +38,7 @@ import budget.saveit.helper.Parameters;
 import budget.saveit.model.Expense;
 import budget.saveit.view.main.calendar.CalendarFragment;
 import budget.saveit.view.main.expenses.ExpensesRecyclerViewAdapter;
+import budget.saveit.view.main.login.LoginScreen;
 
 public class MainActivity extends DBActivity {
 
@@ -73,6 +75,8 @@ public class MainActivity extends DBActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         budgetLine = (TextView) findViewById(R.id.budgetLine);
         initCalendarFragment(savedInstanceState);
@@ -205,6 +209,12 @@ public class MainActivity extends DBActivity {
             startIntent.putExtra("date", calendarFragment.getSelectedDate());
 
             ActivityCompat.startActivityForResult(MainActivity.this, startIntent, MANAGE_MONTHLY_EXPENSE_ACTIVITY_CODE, null);
+            return true;
+        } else if (id == android.R.id.home) {
+            Toast.makeText(getApplicationContext(), "Logging out", Toast.LENGTH_SHORT).show();
+            finish();
+            Intent backToLogin = new Intent(this, LoginScreen.class);
+            startActivity(backToLogin);
             return true;
         }
 
