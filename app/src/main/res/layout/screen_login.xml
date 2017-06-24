@@ -11,8 +11,8 @@
         android:ems="10"
         android:gravity="center"
         android:hint="Username"
-        android:inputType="textPersonName" />
-    android:textAlignment="gravity"
+        android:inputType="textPersonName"
+        android:textAlignment="gravity" />
 
     <EditText
         android:id="@+id/password"

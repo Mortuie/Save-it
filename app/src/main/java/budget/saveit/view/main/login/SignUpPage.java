@@ -45,6 +45,7 @@ public class SignUpPage extends Activity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                onDestroy();
                 Toast.makeText(getApplicationContext(), "Going back...", Toast.LENGTH_SHORT).show();
                 Intent backToLogin = new Intent(SignUpPage.this, LoginScreen.class);
                 startActivity(backToLogin);

@@ -212,9 +212,9 @@ public class MainActivity extends DBActivity {
             return true;
         } else if (id == android.R.id.home) {
             Toast.makeText(getApplicationContext(), "Logging out", Toast.LENGTH_SHORT).show();
-            finish();
             Intent backToLogin = new Intent(this, LoginScreen.class);
             startActivity(backToLogin);
+            finish();
             return true;
         }
 

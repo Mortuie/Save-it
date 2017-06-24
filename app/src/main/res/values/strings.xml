@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Save It</string>
+    <string name="app_name">Save it</string>
     <string name="action_settings">Settings</string>
     <string name="action_balance">Adjust balance</string>
     <string name="action_add_monthly_expense">Manage monthly expenses</string>
