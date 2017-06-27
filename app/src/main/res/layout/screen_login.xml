@@ -2,14 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:weightSum="1">
+    android:orientation="vertical">
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="30dp" />
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:src="@mipmap/ic_launcher"
-        android:layout_weight="1" />
+        android:layout_width="125dp"
+        android:layout_height="125dp"
+        android:layout_gravity="center" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="30dp" />
 
     <EditText
         android:id="@+id/username"
