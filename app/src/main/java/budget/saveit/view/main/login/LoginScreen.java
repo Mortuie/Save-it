@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import budget.saveit.R;
@@ -18,7 +19,7 @@ import budget.saveit.view.MainActivity;
 public class LoginScreen extends Activity {
 
     private Button login;
-    private Button signUp;
+    private TextView signup;
     private Button quit;
     private Button forgotPassword;
     private EditText username;
@@ -30,7 +31,7 @@ public class LoginScreen extends Activity {
         setContentView(R.layout.screen_login);
 
         login = (Button) findViewById(R.id.login);
-        signUp = (Button) findViewById(R.id.signUp);
+        signup = (TextView) findViewById(R.id.signup);
         quit = (Button) findViewById(R.id.quit);
         forgotPassword = (Button) findViewById(R.id.forgotPassword);
 
@@ -52,7 +53,7 @@ public class LoginScreen extends Activity {
             }
         });
 
-        signUp.setOnClickListener(new View.OnClickListener() {
+        signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Redirecting...", Toast.LENGTH_SHORT).show();
