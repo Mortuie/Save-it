@@ -10,6 +10,8 @@
     <string name="title_activity_add_monthly_expense">Manage Monthly Expenses</string>
     <string name="title_activity_monthly_expense_add">Add Monthly Expense</string>
     <string name="title_activity_monthly_expense_edit">Edit Monthly Expense</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
 
