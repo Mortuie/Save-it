@@ -53,10 +53,6 @@ public class LoginScreen extends Activity {
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final ProgressDialog progressDialog = new ProgressDialog(LoginScreen.this, R.style.AppTheme);
-                progressDialog.setIndeterminate(true);
-                progressDialog.setMessage("Creating account...");
-                progressDialog.show();
                 Toast.makeText(getApplicationContext(), "Redirecting...", Toast.LENGTH_SHORT).show();
                 Intent signUpPage = new Intent(LoginScreen.this, SignUpPage.class);
                 startActivity(signUpPage);
