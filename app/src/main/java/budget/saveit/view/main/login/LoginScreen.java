@@ -20,8 +20,6 @@ public class LoginScreen extends Activity {
 
     private Button login;
     private TextView signup;
-    private Button quit;
-    private Button forgotPassword;
     private EditText username;
     private EditText password;
 
@@ -32,8 +30,6 @@ public class LoginScreen extends Activity {
 
         login = (Button) findViewById(R.id.login);
         signup = (TextView) findViewById(R.id.signup);
-        quit = (Button) findViewById(R.id.quit);
-        forgotPassword = (Button) findViewById(R.id.forgotPassword);
 
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
@@ -59,22 +55,6 @@ public class LoginScreen extends Activity {
                 Toast.makeText(getApplicationContext(), "Redirecting...", Toast.LENGTH_SHORT).show();
                 Intent signUpPage = new Intent(LoginScreen.this, SignUpPage.class);
                 startActivity(signUpPage);
-            }
-        });
-
-        forgotPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Redirecting...", Toast.LENGTH_SHORT).show();
-                Intent forgotPassword = new Intent(LoginScreen.this, ForgotPassword.class);
-                startActivity(forgotPassword);
-            }
-        });
-
-        quit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onDestroy();
             }
         });
     }
