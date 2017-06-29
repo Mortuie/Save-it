@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import budget.saveit.R;
 import budget.saveit.view.MainActivity;
 
@@ -21,6 +23,7 @@ public class LoginScreen extends Activity {
 
     private Button login;
     private TextView signup;
+    private TextView forgottenPassword;
     private EditText username;
     private EditText password;
 
@@ -31,7 +34,7 @@ public class LoginScreen extends Activity {
 
         login = (Button) findViewById(R.id.login);
         signup = (TextView) findViewById(R.id.signup);
-
+        forgottenPassword = (TextView) findViewById(R.id.forgotPassword);
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
 
@@ -53,9 +56,20 @@ public class LoginScreen extends Activity {
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                onDestroy();
                 Toast.makeText(getApplicationContext(), "Redirecting...", Toast.LENGTH_SHORT).show();
                 Intent signUpPage = new Intent(LoginScreen.this, SignUpPage.class);
                 startActivity(signUpPage);
+            }
+        });
+
+        forgottenPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onDestroy();
+                Toast.makeText(getApplicationContext(), "Redirecting...", Toast.LENGTH_SHORT).show();
+                Intent forgottenPasswordPage = new Intent(LoginScreen.this, ForgotPassword.class);
+                startActivity(forgottenPasswordPage);
             }
         });
     }
